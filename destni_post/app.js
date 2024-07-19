@@ -14,11 +14,13 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const commentRoute = require("./Routes/commentRoute.js");
 const savepost = require("./Routes/savepostRoute.js");
-const { authenticateUser } = require('./Auth/authentication.js');
+// const { authenticateUser } = require('./Auth/authentication.js');
  const protectedroute = require("./Routes/sessionRoute.js")
-const postRouer = require("./Routes/postRoute.js");
+const postRoute = require("./Routes/postRoute.js");
+const ReportRoute = require("./Routes/reportRoute.js")
 const errorHandler = require('./middleware/errorhandler.js');
 const Constants = require('./helper/constent.js');
+
 
 const ejs = require('ejs');
 const { default: axios } = require('axios');
@@ -46,17 +48,19 @@ app.use(errorHandler);
 
 // Rate Limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: Constants.LIMIT_MAX_LIMIT,
-  message: Constants.LIMITER_NOTIFICATION,
+windowMs: 15 * 60 * 1000, 
+max: Constants.LIMIT_MAX_LIMIT,
+message: Constants.LIMITER_NOTIFICATION,
 });
 app.use(limiter);
 
 
-app.use('/destni_post',postRouer);
+app.use('/destni_post',postRoute);
 app.use("/destni_post/comment",commentRoute)
 app.use("/destni_post/savepost",savepost)
- app.use("/destni_post/protectedRoute",protectedroute);
+app.use("/destni_post/protectedRoute",protectedroute);
+app.use("/destni_post/Report",ReportRoute);
+
 
 
 app.listen(PORT, () => {

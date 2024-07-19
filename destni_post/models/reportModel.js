@@ -5,14 +5,14 @@ const reportSchema = new mongoose.Schema({
   report: {
     type: String
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+  Reprotedby: {
+    type: String,
+
     required: true
   },
   postId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Post'
+    type:String,
+
   },
   createdAt: {
     type: Date,
