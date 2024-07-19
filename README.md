@@ -38,12 +38,14 @@ Destni is an advanced social media platform that allows users to share their tra
    cd destni
    
 2. ## if you are developer then follow this steps 🥇 ## 
+  ```bash
  cd destni_user
  npm run dev
  localhost:3001/user/sigin 
  after that 
 
 3. ## open that new shell in your vscode terminal 
+  ```bash
 cd destni_post
 npm run dev
 localhost:3000/destni_post/protectedRoute/protectedRouteInPost
