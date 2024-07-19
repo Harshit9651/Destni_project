@@ -1,0 +1,64 @@
+<!-- renders.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications</title>
+  <!-- Example of setting CSP headers in Express -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdn.socket.io https://cdn.jsdelivr.net; ... other directives ..."> -->
+  <!-- Include Socket.io client -->
+  <script src="/socket.io/socket.io.js"></script> 
+  <!-- Include Axios for HTTP requests -->
+  <script src="/js/axios.min.js"></script> 
+</head>
+<body>
+  <h1>Notifications</h1>
+  <ul id="notifications">
+    <% renderdata.forEach(notification => { %>
+      <li><%= notification.type %> from <%= notification.fname %></li>
+    <% }); %>
+  </ul>
+  <!-- Display user ID for testing -->
+  <h1>User ID: <%= userid %></h1>
+
+  <!-- Button to send a follow request (for testing) -->
+  <button id="followButton">Follow User</button>
+
+  <!-- External JavaScript file -->
+  <script src="/js/main.js" nonce="random_nonce_value"></script> <!-- Adjust path and nonce value -->
+
+  <!-- Example of using event listener in external JavaScript -->
+  <script>
+    document.getElementById('followButton').addEventListener('click', function() {
+      sendFollowRequest('targetUserId');
+    });
+    
+    // Replace userId with the actual user ID (assuming it's passed correctly from backend)
+    const userId = '<%= userid %>'; // Make sure to use '<%= %>' to print EJS variables
+    const socket = io('http://localhost:3000'); // Adjust the URL to your backend
+
+    // Emit join event to join user to their specific socket room
+    socket.emit('join', userId);
+
+    // Listen for notifications from the server
+    socket.on('notification', (notification) => {
+      const notificationsList = document.getElementById('notifications');
+      const newNotification = document.createElement('li');
+      newNotification.textContent = `${notification.type} from ${notification.fname}`;
+      notificationsList.appendChild(newNotification);
+    });
+
+    // Function to send follow request (for testing)
+    const sendFollowRequest = async (targetUserId) => {
+      try {
+        // Adjust the endpoint and data as per your backend API
+        await axios.post(`/api/notification/follow/${targetUserId}`, { fromUserId: '<%= userid %>' });
+      } catch (error) {
+        console.error('Error sending follow request:', error);
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+  }
+  
+  body {
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+  }
+  
+  .container {
+    margin-top: 10rem;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+  }
+  
+  h1 {
+      margin-bottom: 1rem;
+      color: #333;
+      text-align: center;
+  }
+  
+  form {
+      display: flex;
+      flex-direction: column;
+  }
+  
+  label {
+      margin-bottom: 0.5rem;
+      color: #333;
+  }
+  
+  input, select, button {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+  
+  button {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  }
+  
+  button:hover {
+      background-color: #0056b3;
+  }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create a New Post</h1>
+        <form action="/destni_post/posts/create" method="POST">
+            <label for="caption">Caption:</label>
+            <input type="text" id="caption" name="caption">
+
+            <label for="postImageUrl">Post Image URL:</label>
+            <input type="url" id="postImageUrl" name="postImageUrl" required>
+
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="mediaType">Media Type:</label>
+            <select id="mediaType" name="mediaType">
+                <option value="photo">Photo</option>
+                <option value="video">Video</option>
+            </select>
+
+            <label for="postStatus">Post Status:</label>
+            <select id="postStatus" name="postStatus">
+                <option value="publish">Publish</option>
+                <option value="draft">Draft</option>
+                <option value="hidden">Hidden</option>
+            </select>
+
+            <label for="audienceVisibility">Audience Visibility:</label>
+            <select id="audienceVisibility" name="audienceVisibility">
+                <option value="0">Only Me</option>
+                <option value="1">Friends</option>
+                <option value="2">Friends of Friends</option>
+                <option value="3">Public</option>
+            </select>
+
+
+            <button type="submit">Create Post</button>
+        </form>
+    </div>
+</body>
+</html>
