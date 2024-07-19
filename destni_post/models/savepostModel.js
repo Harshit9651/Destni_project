@@ -1,17 +1,14 @@
 // models/Report.js
 const mongoose = require('mongoose');
 
-const reportSchema = new mongoose.Schema({
-  report: {
-    type: String
-  },
+const savepostSchema = new mongoose.Schema({
+ 
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    type: String,
     required: true
   },
   postId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Post'
   },
   createdAt: {
@@ -26,4 +23,4 @@ const reportSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Report', reportSchema);
+module.exports = mongoose.model('SavePost', savepostSchema);

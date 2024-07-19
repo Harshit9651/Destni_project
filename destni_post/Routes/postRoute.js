@@ -5,6 +5,8 @@ const{authenticateUser} = require('../Auth/authentication');
 router.get('/createPost',postController.renderPostPage);
 router.post('/posts/create',postController.postAction)
 router.get('/like',postController.likePost);
+router.get("/renderpostdetail",postController.renderpostdetailpage);
+router.post('/postdetail',postController.getPostWithDetails);
 
 
 

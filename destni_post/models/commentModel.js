@@ -7,12 +7,12 @@ const commentSchema = new mongoose.Schema({
     required: true
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'User',
     required: true
   },
   postId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Post',
     required: true
   },
@@ -30,6 +30,10 @@ const commentSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true
+},  {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 commentSchema.virtual('replies', {

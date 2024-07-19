@@ -18,7 +18,8 @@ const http = require('http');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);
-const commentRoute = require("./Routes/commentRoute.js")
+const commentRoute = require("./Routes/commentRoute.js");
+const savepost = require("./Routes/savepostRoute.js");
 
 const ejs = require('ejs');
 const { default: axios } = require('axios');
@@ -59,6 +60,7 @@ app.use(limiter);
 app.use('/destni_post',postRouer);
 
 app.use("/destni_post/comment",commentRoute)
+app.use("/destni_post/savepost",savepost)
 
 
 

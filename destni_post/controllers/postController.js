@@ -1,5 +1,4 @@
 
-const postModel = require('../models/postmodel');
 const { postSchema } = require('../validation/postSchemavalidation.js');
 const createError = require('http-errors');
 const statuscode = require("../helper/statuscode.js");
@@ -8,6 +7,7 @@ const Like = require('../models/likeModel.js')
 const post = require('../models/postModel.js')
 const notification = require("../models/notificationModel.js")
 const mongoose = require('mongoose')
+const Comment = require("../models/commentModel.js")
 
 exports.renderPostPage = async(req,res)=>{
     res.render("post.ejs")
@@ -75,4 +75,27 @@ exports.likePost = async (req, res, next) => {
   }
 };
 
+exports.renderpostdetailpage= async(req,res)=>{
+  res.render("postdetail.ejs")
+}
+ 
+exports.getPostWithDetails = async (req, res) => {
+  try {
+    const { postId } = req.body; // Assuming postId is sent in the request body
 
+    // Fetch post with likes and comments populated
+    const postdata = await post.findOne({ postId })
+      .populate('likes')
+      .populate('comments')
+      .exec();
+
+    if (!postdata) {
+      return res.status(404).send({ error: 'Post not found' });
+    }
+
+    res.status(200).json({ postdata });
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    res.status(500).send({ error: 'An error occurred' });
+  }
+};
