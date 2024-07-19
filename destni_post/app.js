@@ -1,5 +1,4 @@
 const express = require('express');
-
 const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
@@ -8,26 +7,23 @@ const session = require('express-session');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
-const Constants = require('./helper/constent.js');
 const cors = require('cors');
-const { authenticateUser } = require('./Auth/authentication.js');
-const postRouer = require("./Routes/postRoute.js");
-const errorHandler = require('./middleware/errorhandler.js');
-// const renderdata = require("./Routes/renderRoute.js");
 const http = require('http');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);
 const commentRoute = require("./Routes/commentRoute.js");
 const savepost = require("./Routes/savepostRoute.js");
+const { authenticateUser } = require('./Auth/authentication.js');
+ const protectedroute = require("./Routes/sessionRoute.js")
+const postRouer = require("./Routes/postRoute.js");
+const errorHandler = require('./middleware/errorhandler.js');
+const Constants = require('./helper/constent.js');
 
 const ejs = require('ejs');
 const { default: axios } = require('axios');
-
 require('./server/connection.js');
-
 dotenv.config();
-
 const { SESSION_SECRET, PORT } = process.env;
 
 // Middleware
@@ -58,23 +54,10 @@ app.use(limiter);
 
 
 app.use('/destni_post',postRouer);
-
 app.use("/destni_post/comment",commentRoute)
 app.use("/destni_post/savepost",savepost)
+ app.use("/destni_post/protectedRoute",protectedroute);
 
-
-
-app.get('/protectedRouteInPost', authenticateUser, (req, res) => {
-  req.session.userId = req.user.id;
-  console.log(`User ID set: ${req.session.userId}`);
-
-  res.json({ message: 'You have accessed a protected route in destni_post!', user: req.user });
-});
-
-app.get('/destni_post/post', (req, res) => {
-  console.log(`User ID is: ${req.session.userId}`); 
-  res.json({ userId: req.session.userId });
-});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
