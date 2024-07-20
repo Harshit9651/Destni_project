@@ -42,15 +42,6 @@ Frontend:
  
  
 
-Real-Time Communication:
-
- 
-
-Cloud Storage:
-
- 
-
-Containerization:
 
  
 
