@@ -4,15 +4,6 @@ Destni is an advanced social media platform designed for seamless interaction an
 🚀 Explore Destni
 
 🛠️ Tech Stack
-Backend:
-
- ![nodejs](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)&nbsp;
-![expressjs](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)&nbsp;
-![mongodb](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)&nbsp;
-![jwt](	https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)&nbsp;
-![Redis](https://tse1.explicit.bing.net/th?id=OIP.xBynMpy7mOEpqIsY1kR9PAHaGW&pid=Api&P=0&h=180)&nbsp;
-![Kafka](https://tse2.mm.bing.net/th?id=OIP.6lFxnQRzWwfwgvx9ZMU9QAHaEJ&pid=Api&P=0&h=180)&nbsp;
-![FCM](https://www.fcmtravel.com/sites/default/files/styles/large/public/UK_FCM_Logo_Summary.jpg?itok=pUGbSjAg)&nbsp;
 
 **Realtime Communication:**
 	
@@ -22,28 +13,9 @@ Backend:
 
 ![aws-s3](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 
-**Cloud Storage:** [Cloudinary](https://cloudinary.com/)
+**Cloud Storage:**
 
-**Mail Service:** [Sendgrid](https://sendgrid.com/)
- 
- 
- 
- 
-
-Frontend:
-![ejs](https://tse2.mm.bing.net/th?id=OIP.aMiffZdBW39HnVAgvoRpagHaEf&pid=Api&P=0&h=180)&nbsp;
-![react-router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)&nbsp;
-![redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)&nbsp;
-![tailwindcss](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)&nbsp;
-![mui](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)&nbsp;
- 
- 
- 
- 
- 
-
-
- 
+**Mail Service:** 
 
 🚀 Features
 User Authentication: Sign up, login, and secure session management.
@@ -81,17 +53,10 @@ npm run dev
 🖼️ Sneak Peek
 
 <table>
-  <tr>
-    <td><img src="https://user-images.githubusercontent.com/yourusername/screenshot-profile.png" alt="profile" /></td>
-    <td><img src="https://user-images.githubusercontent.com/yourusername/screenshot-travel.png" alt="travel" /></td>
-  </tr>
-  <tr>
-    <td><img src="https://user-images.githubusercontent.com/yourusername/screenshot-chat.png" alt="chat" /></td>
-    <td><img src="https://user-images.githubusercontent.com/yourusername/screenshot-post.png" alt="post" /></td>
-  </tr>
+
 </table>
 📬 Contact
-Feel free to reach out:
+Feel free to reach out:programming966051@gmail.com
 
 
 
