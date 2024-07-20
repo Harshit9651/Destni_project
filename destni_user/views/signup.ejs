@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>profileform  Form</title>
+    <title>Signup Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,13 +50,10 @@
 <body>
     <div class="signup-container">
         <h1> profile Form</h1>
-        <form action="/user/profile/profiledata" method="post">
- <input type="text" name="fname" placeholder="First Name" required>
-            <input type="text" name="lname" placeholder="Last Name" required>
-            <input type="text" name="city" placeholder="City" required>
-            <input type="text" name="state" placeholder="State" required>
-            <input type="text" name="pincode" placeholder="Pincode" required>
-            <input type="text" name="pnumber" placeholder="Phone Number" required>
+        <form action="/user/signupdata" method="post">
+ <input type="text" name="username" placeholder="username" required>
+            <input type="text" name="password" placeholder="password" required>
+            <input type="email" name="email" placeholder="email" required>
             <button type="submit">Submit</button>
         </form>
     </div>

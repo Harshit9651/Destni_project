@@ -41,4 +41,3 @@ exports.travelData = async (req, res) => {
         res.status(statusCode.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).send(statusMessage.SERVER_ERROR.INTERNAL_SERVER_ERROR.message);
     }
 }
-export.lo

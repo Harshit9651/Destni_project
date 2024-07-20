@@ -1,19 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, 'Username is required'],
-    unique: true,
-    minlength: [4, 'Username must be at least 4 characters long'],
-    maxlength: [30, 'Username must be less than 30 characters long'],
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters long'],
-  },
+const userProfileSchema = new mongoose.Schema({
   image: {
     type: String,
     required: false,
@@ -66,4 +53,4 @@ const userSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.models.User || mongoose.model('User', userSchema);
+module.exports = mongoose.models.User || mongoose.model('User', userProfileSchema);

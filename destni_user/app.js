@@ -6,13 +6,15 @@ const session = require('express-session');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const flash = require('connect-flash');
-const userRoute = require('./Routes/userRoute.js');
+const signupRoute = require("./Routes/signupRoute.js");
+const signinRoute = require("./Routes/signinRoute.js");
+ const userprofileRoute = require("./Routes/userProfileRoute.js");
 const travelRoute = require('./Routes/travelRoute.js');
+ 
 const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
 const path = require('path');
 const cors = require('cors');
-const user = require("./models/UserModel.js");
 
 require('./Server/connection.js');
 dotenv.config();
@@ -47,27 +49,21 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Routes
-app.use('/user', userRoute);
-app.use('/user/travel', travelRoute);
+app.use('/user', signupRoute);
+app.use('/user/signin',signinRoute)
+app.use('/user/profile',userprofileRoute)
+ app.use('/user/travel', travelRoute);
 
-// // Test Route
-// app.get('/hello', (req, res) => {
-//   console.log(req.session); // Log the whole session object
-//   console.log('Session userId:', req.session.userId);
-//   res.send( req.session.userId);
-// });
+// Test Route
+app.get('/hello', (req, res) => {
+  console.log(req.session); // Log the whole session object
+  console.log('Session userId:', req.session.userId);
+  res.send( req.session.userId);
+});
 
 // Start the server
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
 
-// app.get('/find/alluser', async (req, res) => {
-//   try {
-//     const Users = await user.find();
-//     console.log(Users);
-//     res.status(200).send(Users);
-//   } catch (error) {
-//     res.status(500).send({ error: "Error occurred while listing the user data" });
-//   }
-// });
+
