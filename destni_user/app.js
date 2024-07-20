@@ -9,7 +9,7 @@ const flash = require('connect-flash');
 const signupRoute = require("./Routes/signupRoute.js");
 const signinRoute = require("./Routes/signinRoute.js");
  const userprofileRoute = require("./Routes/userProfileRoute.js");
-const travelRoute = require('./Routes/travelRoute.js');
+ const travelRoute = require('./Routes/travelRoute.js');
  
 const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
@@ -27,8 +27,18 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],  // Allows inline scripts
+      styleSrc: ["'self'", "'unsafe-inline'"],   // Allows inline styles
+      // Add other directives as needed
+    },
+  })
+);
 app.use(cors());
 app.use(flash());
 app.use(session({
@@ -52,7 +62,7 @@ app.use(limiter);
 app.use('/user', signupRoute);
 app.use('/user/signin',signinRoute)
 app.use('/user/profile',userprofileRoute)
- app.use('/user/travel', travelRoute);
+app.use('/user/travel', travelRoute);
 
 // Test Route
 app.get('/hello', (req, res) => {

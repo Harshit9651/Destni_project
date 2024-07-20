@@ -30,7 +30,7 @@ const travelSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    user: {
+    userId: {
         type:String,
         required:true
     }

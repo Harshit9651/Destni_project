@@ -3,9 +3,9 @@ const terverllController = require('../Controllers/travelDataController');
 
 const router = express.Router();
 
-router.get('/', terverllController.rendertrevelinputpage );
-router.post('/userterveldata',terverllController.travelData);
-
-
+router.get('/destniform', terverllController.rendertravelinfopage );
+router.post('/userterveldata',terverllController.saveTravelInfo);
+router.get('/search', terverllController.searchUsersByCity );
+router.get('/traevelrender/search',terverllController.rendersearch)
 
 module.exports = router;

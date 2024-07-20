@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Users</title>
+  <!-- <script src="../public/js/javascript.js" defer></script> -->
+   <script>async function searchUsers() {
+    const query = document.getElementById('searchInput').value;
+    if (!query) return;
+    
+    const response = await fetch(`http://localhost:3001/user/travel/search?city=${encodeURIComponent(query)}`);
+    const users = await response.json();
+
+    const resultsContainer = document.getElementById('results');
+    resultsContainer.innerHTML = '';
+
+    users.forEach(user => {
+        const userElement = document.createElement('div');
+        userElement.textContent = `${user.from} ${user.to} - ${user.mode} -  ${user.startDate}- ${user.endDate}  ${user.people}  ${user.description}`;
+        resultsContainer.appendChild(userElement);
+    });
+}
+
+// Attach event handler after DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('searchInput').addEventListener('input', searchUsers);
+});
+
+    </script>
+</head>
+<body>
+  <h1>Search for Users Traveling to a City</h1>
+  <input type="text" id="searchInput" placeholder="Enter city">
+  <div id="results"></div>
+</body>
+</html>
