@@ -73,7 +73,7 @@ app.get('/hello', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+  console.log(Constants.Applog);
 });
 
 
