@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node app.js",
-    "dev":"nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +28,7 @@
     "mobgoose": "^3.0.1",
     "mongoose": "^8.4.4",
     "nodemon": "^3.1.4",
+    "redis": "^4.6.15",
     "session": "^0.1.0",
     "validator": "^13.12.0"
   }

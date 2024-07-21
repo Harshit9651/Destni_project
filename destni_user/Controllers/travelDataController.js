@@ -3,6 +3,9 @@ const statusCode = require("../helper/statuscode.js");
 const statusMessage = require("../helper/statusmessage.js");
 const trevelModel = require('../models/travelDataModel.js')
 const validator = require('validator');
+const client = require('../Redis/redis.js')
+const { cacheMiddleware, cacheResponse } = require('../Redis/redisMiddleware.js');
+
 exports.rendertravelinfopage = (req,res)=>{
     try{
 res.render("destniform.ejs");
@@ -72,22 +75,25 @@ exports.saveTravelInfo = async (req, res) => {
 
 exports.rendersearch=async(req,res)=>{
 res.render('searchinput.ejs')
-}
-exports.searchUsersByCity = async (req, res) => {
-    const { city } = req.query;
-    console.log('City:', city); 
-    
-    if (!city) {
-      return res.status(400).json({ error: 'City is required' });
-    }
-  
-    try {
-      const users = await trevelModel.find({to: new RegExp(city, 'i') }); 
-   console.log(users);
-      res.status(200).json(users);
+ }
 
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
+
+
+
+
+
+exports.searchUsersByCity = async (req, res) => {
+  const { city } = req.query;
+  if (!city) {
+    return res.status(400).json({ error: 'City is required' });
   }
+
+  try {
+    const users = await trevelModel.find({ to: new RegExp(city, 'i') });
+    cacheResponse(city, users, 3600);
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
