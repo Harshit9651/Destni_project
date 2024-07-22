@@ -16,17 +16,17 @@
     "joi": "^17.13.3",
     "mongoose": "^8.4.4",
     "nodemon": "^3.1.4",
+    "redis": "^4.6.15",
     "socket.io": "^4.7.5",
     "uuid": "^10.0.0"
   },
   "name": "destnii_post",
   "version": "1.0.0",
   "main": "cluster.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node  cluster.js",
-    "dev":"nodemon cluster.js"
+    "start": "node  cluster.js",
+    "dev": "nodemon cluster.js"
   },
   "keywords": [],
   "author": "",
