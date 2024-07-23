@@ -1,9 +1,9 @@
 const createError = require('http-errors');
-const statuscode = require("../helper/statuscode.js");
-const statusmessage = require('../helper/statusmessage.js');
-const post = require('../models/postModel.js')
-const notification = require("../models/notificationModel.js")
-const Comment = require("../models/commentModel.js");
+const statuscode = require("../helper/statuscode");
+const statusmessage = require('../helper/statusmessage');
+const post = require('../models/postModel')
+const notification = require("../models/notificationModel")
+const Comment = require("../models/commentModel");
 const mongoose = require('mongoose')
 const { v4: uuidv4, validate: validateUUID } = require('uuid');
 

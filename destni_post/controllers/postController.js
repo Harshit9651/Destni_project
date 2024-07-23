@@ -1,13 +1,13 @@
 
-const { postSchema } = require('../validation/postSchemavalidation.js');
+const { postSchema } = require('../validation/postSchemavalidation');
 const createError = require('http-errors');
-const statuscode = require("../helper/statuscode.js");
-const statusmessage = require('../helper/statusmessage.js');
-const Like = require('../models/likeModel.js')
-const post = require('../models/postModel.js')
-const notification = require("../models/notificationModel.js")
+const statuscode = require("../helper/statuscode");
+const statusmessage = require('../helper/statusmessage');
+const Like = require('../models/likeModel')
+const post = require('../models/postModel')
+const notification = require("../models/notificationModel")
 const mongoose = require('mongoose')
-const Comment = require("../models/commentModel.js")
+const Comment = require("../models/commentModel")
 
 exports.renderPostPage = async(req,res)=>{
     res.render("post.ejs")

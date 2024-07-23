@@ -17,7 +17,7 @@ const authenticateToken = require('./Auth/authentication.js')
 const path = require('path');
 const cors = require('cors');
 
-// require('./Server/connection.js');
+require('./Server/connection.js');
 dotenv.config();
 
 const app = express();

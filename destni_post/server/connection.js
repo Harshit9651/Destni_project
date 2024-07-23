@@ -1,7 +1,13 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 const mongoose = require('mongoose');
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/Destni_post');
+  // const url = await process.env.MONGODBURL;
+  // console.log(url)
+    await mongoose.connect(process.env.MONGODBURL);
   console.log("mongoose responsed sucessfully");
 }
 

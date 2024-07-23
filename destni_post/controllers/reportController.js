@@ -1,7 +1,7 @@
 const Post = require("../models/postModel");
 const Report = require("../models/reportModel");
-const statuscode = require("../helper/statuscode.js");
-const statusmessage = require('../helper/statusmessage.js');
+const statuscode = require("../helper/statuscode");
+const statusmessage = require('../helper/statusmessage');
 
 exports.renderreportpage = async (req, res) => {
   try {

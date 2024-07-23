@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  destni_user:
+    build:
+      context: ./destni_user
+      dockerfile: Dockerfile
+    container_name: destni_user
+    ports:
+      - "3001:3001"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MONGODB_URL=mongodb+srv://destni_user:destniuser1234@cluster0.sbirrhi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    depends_on:
+      - redis
+
+  destni_post:
+    build:
+      context: ./destni_post
+      dockerfile: Dockerfile
+    container_name: destni_post
+    ports:
+      - "3002:3002"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MONGODB_URL=mongodb+srv://destni_post:destnipost1234@cluster0.sbirrhi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    depends_on:
+      - redis

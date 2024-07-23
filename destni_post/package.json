@@ -3,6 +3,7 @@
     "aios": "^1.0.1",
     "axios": "^1.7.2",
     "body-parser": "^1.20.2",
+    "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -22,11 +23,11 @@
   },
   "name": "destnii_post",
   "version": "1.0.0",
-  "main": "cluster.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node  cluster.js",
-    "dev": "nodemon cluster.js"
+    "start": "node  app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",

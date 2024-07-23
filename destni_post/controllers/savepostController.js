@@ -1,7 +1,7 @@
 const SavePost = require("../models/savepostModel");
 const Post = require("../models/postModel");
-const statuscode = require("../helper/statuscode.js");
-const statusmessage = require('../helper/statusmessage.js');
+const statuscode = require("../helper/statuscode");
+const statusmessage = require('../helper/statusmessage');
 
 
 exports.rendersavepostpage = async (req, res) => {
