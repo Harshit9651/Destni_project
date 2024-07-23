@@ -4,7 +4,16 @@ Destni is an advanced social media platform designed for seamless interaction an
 🚀 Explore Destni
 
 🛠️ Tech Stack
-
+Backend 
+1. Node.js
+2. Express
+3. Redis
+4. Caching 
+5. Docker
+6. Nginx
+7. Load proxy balancer 
+8. Kafka 
+9. Loading....
 **Realtime Communication:**
 	
 ![socketio](https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=Socket.io&logoColor=white)
