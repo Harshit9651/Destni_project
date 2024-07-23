@@ -34,3 +34,19 @@ services:
       - MONGODB_URL=mongodb+srv://destni_post:destnipost1234@cluster0.sbirrhi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
     depends_on:
       - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - destni_user
+      - destni_post
+
+
+
+      #all afferts and all error dedicted to me     
+      
