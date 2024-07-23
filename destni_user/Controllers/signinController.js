@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
-const statusCodes = require('../helper/statuscode.js');
+const statusCodes = require('../helper/statusCode');
 const jwt = require('jsonwebtoken');
 
-const Constants = require('../helper/Constent.js');
+const Constants = require('../helper/Constent');
 
-const User = require("../models/signupModel.js");
+const User = require("../models/signupModel");
 
 const { JWT_SECRET } = process.env;
 

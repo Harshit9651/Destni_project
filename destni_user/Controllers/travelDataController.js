@@ -1,11 +1,11 @@
 const Constents = require('../helper/Constent.js');
-const statusCode = require("../helper/statuscode.js");
-const statusMessage = require("../helper/statusmessage.js");
-const trevelModel = require('../models/travelDataModel.js')
+const statusCode = require("../helper/statusCode.js");
+const statusMessage = require("../helper/statusMessage");
+const trevelModel = require('../models/travelDataModel')
 const validator = require('validator');
 const client = require('../Redis/redis.js')
 const { cacheMiddleware, cacheResponse } = require('../Redis/redisMiddleware.js');
-
+console.log(statusCode.CLIENT_ERROR.BAD_REQUEST.code)
 exports.rendertravelinfopage = (req,res)=>{
     try{
 res.render("destniform.ejs");

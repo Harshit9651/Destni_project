@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/signupModel.js');
-const statusCodes = require('../helper/statusCode.js')
+const statusCodes = require('../helper/statusCode')
+console.log(statusCodes.CLIENT_ERROR.BAD_REQUEST.code)
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
 exports.renderSignupPage =(req,res)=>{

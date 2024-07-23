@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const RedisStore = require('connect-redis').default;
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const flash = require('connect-flash');
@@ -10,13 +11,13 @@ const signupRoute = require("./Routes/signupRoute.js");
 const signinRoute = require("./Routes/signinRoute.js");
  const userprofileRoute = require("./Routes/userProfileRoute.js");
  const travelRoute = require('./Routes/travelRoute.js');
- 
+ const redisClient = require('./Redis/redis.js'); 
 const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
 const path = require('path');
 const cors = require('cors');
 
-require('./Server/connection.js');
+// require('./Server/connection.js');
 dotenv.config();
 
 const app = express();
@@ -39,9 +40,11 @@ app.use(
     },
   })
 );
+const store = new RedisStore({ client: redisClient });
 app.use(cors());
 app.use(flash());
 app.use(session({
+  store: store,
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,

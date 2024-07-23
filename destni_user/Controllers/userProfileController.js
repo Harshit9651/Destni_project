@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/UserprofileModel.js'); 
-const statusCodes = require('../helper/statuscode.js');
+const User = require('../models/UserprofileModel'); 
+const statusCodes = require('../helper/statusCode');
 const jwt = require('jsonwebtoken');
-const Constants = require('../helper/Constent.js');
+const Constants = require('../helper/Constent');
 require('dotenv').config();
 
 

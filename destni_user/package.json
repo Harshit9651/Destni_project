@@ -17,6 +17,7 @@
     "body-parser": "^1.20.2",
     "cluster": "^0.7.7",
     "connect-flash": "^0.1.1",
+    "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
