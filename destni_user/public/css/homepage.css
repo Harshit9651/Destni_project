@@ -396,4 +396,29 @@ display: block; /* Ensure it is visible on mobile */
 }
 #profileLink {
     display: block; /* Ensure it is visible on mobile */
+}.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 125%; /* Position the tooltip below the icon */
+  left: 50%;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
