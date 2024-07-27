@@ -6,7 +6,6 @@
   <title>Dark Theme Landing Page</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Add keyframes for animation */
     @keyframes highlight {
       0% {
         box-shadow: 0 0 0 0 #007bff;
@@ -43,8 +42,8 @@
       background-color: #1f1f1f;
       padding: 20px;
       box-sizing: border-box;
-      animation: highlight 2s ease-out; /* Apply animation */
-      position: relative; /* To position the more-options div */
+      animation: highlight 2s ease-out;
+      position: relative;
     }
 
     .sidebar-header {
@@ -53,21 +52,20 @@
     }
 
     .sidebar-header h2 {
-      font-family: 'Grand Hotel', cursive; /* Use a Google Font similar to Instagram */
+      font-family: 'Grand Hotel', cursive;
       font-size: 2rem;
       text-align: center;
       text-transform: uppercase;
       font-weight: bold;
       letter-spacing: 3px;
       margin-bottom: 20px;
-      margin-right: 30px;
       color: rgb(20, 58, 170);
     }
 
     .menu {
       list-style: none;
       padding: 0;
-      margin-bottom: 60px; /* To create space for the more button */
+      margin-bottom: 60px;
     }
 
     .menu li {
@@ -137,7 +135,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-      animation: highlight 2s ease-out; /* Apply animation */
+      animation: highlight 2s ease-out;
     }
 
     .search-bar input {
@@ -174,7 +172,7 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       position: relative;
-      animation: highlight 2s ease-out; /* Apply animation */
+      animation: highlight 2s ease-out;
     }
 
     .post img {
@@ -244,11 +242,12 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        z-index: 100; /* Ensure sidebar is above main content */
+        z-index: 100;
+        padding: 0;
       }
 
       .content {
-        margin-bottom: 60px; /* Match sidebar height to prevent overlap */
+        margin-bottom: 60px;
       }
 
       .menu {
@@ -275,8 +274,21 @@
         width: 40px;
         height: 40px;
       }
+
+      .more-button {
+        display: none;
+      }
+
+      .sidebar-header {
+        display: none;
+      }
+
+      .menu li a.hide-on-mobile {
+        display: none;
+      }
     }
-    .fa-home{
+
+    .fa-home {
       margin-right: 5px;
     }
   </style>
@@ -289,9 +301,9 @@
         <h2>Destni</h2>
       </div>
       <ul class="menu">
-        <li><a href="#"><i class="fas fa-home"> </i>Home</a></li>
-        <li><a href="#"><i class="far fa-envelope"> </i> Message</a></li>
-        <li><a href="#"><i class="far fa-bell"></i> Notification</a></li>
+        <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
         <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
         <li><a href="#">See Your Profile</a></li>
         <li><div class="more-button" onclick="toggleMoreOptions()">More</div></li>
@@ -305,56 +317,56 @@
     <main class="content">
       <div class="search-bar">
         <input type="text" placeholder="Search...">
-        <div class="message-icon">✉️</div>
+        <div class="message-icon">
+          <i class="far fa-envelope"></i>
+        </div>
       </div>
       <div class="posts">
         <div class="post">
-          <img src="https://via.placeholder.com/400" alt="Post Image">
+          <img src="image1.jpg" alt="Post Image">
           <div class="post-details">
             <h3>Post Title</h3>
-            <p>Post caption goes here...</p>
+            <p>Post Description</p>
           </div>
           <div class="post-icons">
             <div class="left-icons">
-              <i class="fas fa-heart"></i>
-              <i class="fas fa-comment"></i>
+              <i class="far fa-thumbs-up"></i>
+              <i class="far fa-comment"></i>
             </div>
             <div class="right-icon">
-              <i class="fas fa-bookmark"></i>
+              <i class="far fa-bookmark"></i>
             </div>
           </div>
         </div>
         <div class="post">
-          <img src="https://via.placeholder.com/400" alt="Post Image">
+          <img src="image2.jpg" alt="Post Image">
           <div class="post-details">
             <h3>Post Title</h3>
-            <p>Post caption goes here...</p>
+            <p>Post Description</p>
           </div>
           <div class="post-icons">
             <div class="left-icons">
-              <i class="fas fa-heart"></i>
-              <i class="fas fa-comment"></i>
+              <i class="far fa-thumbs-up"></i>
+              <i class="far fa-comment"></i>
             </div>
             <div class="right-icon">
-              <i class="fas fa-bookmark"></i>
+              <i class="far fa-bookmark"></i>
             </div>
           </div>
         </div>
-        <!-- Add more posts here -->
       </div>
     </main>
   </div>
 
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <script>
     function toggleMoreOptions() {
-      var moreOptions = document.getElementById('moreOptions');
-      if (moreOptions.style.display === 'block') {
-        moreOptions.style.display = 'none';
-      } else {
+      const moreOptions = document.getElementById('moreOptions');
+      if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
         moreOptions.style.display = 'block';
+      } else {
+        moreOptions.style.display = 'none';
       }
     }
   </script>
 </body>
+</html>

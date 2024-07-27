@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Theme Landing Page</title>
+  <link rel="stylesheet" href="/destni_user/public/css/homepage.css">
+  <style>
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="container">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <img src="destni.jpg" alt="destni_logo" class="logo">
+        </div>
+     
+ 
+      <ul class="menu">
+        <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
+        <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
+        <li><a href="#">See Your Profile</a></li>
+        <li><div class="more-button" onclick="toggleMoreOptions()">More</div></li>
+      </ul>
+      <div class="more-options" id="moreOptions">
+        <a href="#"><i class="fas fa-moon"></i> Switch Appearance</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        <a href="#"><i class="far fa-bookmark"></i> Saved Items</a>
+      </div>
+    </aside>
+    <main class="content">
+      <div class="search-bar">
+        <input type="text" placeholder="Search...">
+        <div class="message-icon">
+          <i class="far fa-envelope"></i>
+        </div>
+      </div>
+      <div class="posts">
+        <div class="post">
+          <img src="image1.jpg" alt="Post Image">
+          <div class="post-details">
+            <h3>Post Title</h3>
+            <p>Post Description</p>
+          </div>
+          <div class="post-icons">
+            <div class="left-icons">
+              <i class="far fa-thumbs-up"></i>
+              <i class="far fa-comment"></i>
+            </div>
+            <div class="right-icon">
+              <i class="far fa-bookmark"></i>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <img src="image2.jpg" alt="Post Image">
+          <div class="post-details">
+            <h3>Post Title</h3>
+            <p>Post Description</p>
+          </div>
+          <div class="post-icons">
+            <div class="left-icons">
+              <i class="far fa-thumbs-up"></i>
+              <i class="far fa-comment"></i>
+            </div>
+            <div class="right-icon">
+              <i class="far fa-bookmark"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleMoreOptions() {
+      const moreOptions = document.getElementById('moreOptions');
+      if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
+        moreOptions.style.display = 'block';
+      } else {
+        moreOptions.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
