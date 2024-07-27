@@ -305,6 +305,89 @@ animation: rotate 10s linear infinite;
   transform: rotate(0deg); /* Start at 0 degrees */
 }
 100% {
-  transform: rotate(360deg); /* Rotate to 360 degrees */
+  transform: rotate(360deg); 
+}
+}
+/* Styling for Sign In and Sign Up buttons */
+.signin, .signup {
+    display: inline-block; 
+    margin: 0 10px; 
+  }
+  
+  .signin a, .signup a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #1c2025;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .signin a:hover, .signup a:hover {
+    background-color: #204267;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .signin, .signup {
+      display: none;
+      margin-bottom: 10px;
+    }
+  
+    .signin a, .signup a {
+      display: none;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .signin, .signup {
+    display: inline-block; /* Align buttons horizontally */
+    margin: 0 10px; /* Space between buttons */
+  }
+  
+  .signin a, .signup a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #1c2025;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .signin a:hover, .signup a:hover {
+    background-color: #204267;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .signin, .signup {
+      display: block;
+      margin-bottom: 10px;
+    }
+  
+    .signin a, .signup a {
+      display: none;
+      width: 100%;
+      text-align: center;
+    }
+  }
+  #profileLink {
+display: block; /* Ensure it is visible on mobile */
+}
+
+@media (min-width: 768px) {
+/* Hide the link in mobile view if needed */
+#profileLink {
+  display: block; /* Show in desktop view */
+}
+}
+
+@media (max-width: 767px) {
+#profileLink {
+  display: none; /* Hide on mobile view */
 }
 }

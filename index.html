@@ -5,6 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dark Theme Landing Page</title>
   <link rel="stylesheet" href="/destni_user/public/css/homepage.css">
+  <style>/* Styling for Sign In and Sign Up buttons */
+    .signin, .signup {
+      display: inline-block; /* Align buttons horizontally */
+      margin: 0 10px; /* Space between buttons */
+    }
+    
+    .signin a, .signup a {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background-color: #1c2025;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .signin a:hover, .signup a:hover {
+      background-color: #204267;
+      transform: scale(1.05);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 767px) {
+      .signin, .signup {
+        display: block;
+        margin-bottom: 10px;
+      }
+    
+      .signin a, .signup a {
+        display: none;
+        width: 100%;
+        text-align: center;
+      }
+    }
+    #profileLink {
+  display: block; /* Ensure it is visible on mobile */
+}
+
+@media (min-width: 768px) {
+  /* Hide the link in mobile view if needed */
+  #profileLink {
+    display: block; /* Show in desktop view */
+  }
+}
+
+@media (max-width: 767px) {
+  #profileLink {
+    display: none; /* Hide on mobile view */
+  }
+}
+
+    </style>
   <style>
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,7 +74,7 @@
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
         <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
-        <li><a href="#">See Your Profile</a></li>
+        <li><a href="#" id="profileLink">See Your Profile</a></li>
         <li><div class="more-button" onclick="toggleMoreOptions()">More</div></li>
       </ul>
       <div class="more-options" id="moreOptions">
@@ -33,9 +85,15 @@
     </aside>
     <main class="content">
       <div class="search-bar">
-        <input type="text" placeholder="Search...">
+        <input type="text" placeholder="Enter Destination ...">
         <div class="message-icon">
           <i class="far fa-envelope"></i>
+        </div>
+        <div class="signin">
+            <a href=""> SignIn </a>
+        </div>
+        <div class="signup">
+            <a href=""> SignUp</a>
         </div>
       </div>
       <div class="posts">
@@ -75,15 +133,6 @@
     </main>
   </div>
 
-  <script>
-    function toggleMoreOptions() {
-      const moreOptions = document.getElementById('moreOptions');
-      if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
-        moreOptions.style.display = 'block';
-      } else {
-        moreOptions.style.display = 'none';
-      }
-    }
-  </script>
+ <script src="destni_user/public/js/homepage.js"></script>
 </body>
 </html>
