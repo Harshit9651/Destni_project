@@ -1,90 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Destni</title>
-  <link rel="stylesheet" href="/destni_user/public/css/homepage.css">
- 
-  <style>
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Information - Destni</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+  
+    </style>
 </head>
 <body>
-  <div class="container">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <img src="destni.jpg" alt="destni_logo" class="logo">
-        </div>
-     
- 
-      <ul class="menu">
-        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
-        <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
-        <li><a href="#" id="profileLink">See Your Profile</a></li>
-        <li><div class="more-button" onclick="toggleMoreOptions()">More </div> </li>
-     
-      </ul>
-      <div class="more-options" id="moreOptions">
-        <a href="#"><i class="fas fa-moon"></i> Switch Appearance</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-        <a href="#"><i class="far fa-bookmark"></i> Saved Items</a>
-      </div>
-    </aside>
-    <main class="content">
-      <div class="search-bar">
-        <input type="text" placeholder="Enter Destination ...">
-        <div class="message-icon tooltip">
-          <i class="fa-solid fa-plus"></i>
-          <span class="tooltip-text">Add Your new Destination</span>
-         
-        </div>
-        <div class="signin">
-            <a href=""> SignIn </a>
-        </div>
-        <div class="signup">
-            <a href=""> SignUp</a>
-        </div>
-      </div>
-      <div class="posts">
-        <div class="post">
-          <img src="image1.jpg" alt="Post Image">
-          <div class="post-details">
-            <h3>Post Title</h3>
-            <p>Post Description</p>
-          </div>
-          <div class="post-icons">
-            <div class="left-icons">
-              <i class="far fa-thumbs-up"></i>
-              <i class="far fa-comment"></i>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-percent" id="progressPercent">0%</div>
+    </div>
+    <div class="form-container">
+        <h1 class="title">Travel Information</h1>
+        <form id="travelForm" action="/user/travel/userterveldata" method="post">
+            <div class="form-group" id="step-1">
+                <input type="text" id="from" name="from" placeholder=" ">
+                <label for="from">From:</label>
             </div>
-            <div class="right-icon">
-              <i class="far fa-bookmark"></i>
+            <div class="form-group" id="step-2">
+                <input type="text" id="to" name="to" placeholder=" ">
+                <label for="to">To:</label>
             </div>
-          </div>
-        </div>
-        <div class="post">
-          <img src="image2.jpg" alt="Post Image">
-          <div class="post-details">
-            <h3>Post Title</h3>
-            <p>Post Description</p>
-          </div>
-          <div class="post-icons">
-            <div class="left-icons">
-              <i class="far fa-thumbs-up"></i>
-              <i class="far fa-comment"></i>
+            <div class="form-group" id="step-3">
+                <input type="date" id="startDate" name="startDate" placeholder=" ">
+                <label for="startDate">Start Date:</label>
             </div>
-            <div class="right-icon">
-              <i class="far fa-bookmark"></i>
+            <div class="form-group" id="step-4">
+                <input type="date" id="endDate" name="endDate" placeholder=" ">
+                <label for="endDate">End Date:</label>
             </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-
- <script src="destni_user/public/js/homepage.js"></script>
+            <div class="form-group" id="step-5">
+                <input type="number" id="people" name="people" placeholder=" ">
+                <label for="people">Number of People:</label>
+            </div>
+            <div class="form-group" id="step-6">
+                <select id="mode" name="mode">
+                    <option value="bus">Bus</option>
+                    <option value="train">Train</option>
+                    <option value="flight">Flight</option>
+                    <option value="sharing_cab">Sharing Cab</option>
+                    <option value="other">Other</option>
+                </select>
+                <label for="mode">Mode of Transport:</label>
+            </div>
+            
+            <div class="form-group" id="step-7">
+                <textarea id="message" name="message" rows="4" placeholder=" "></textarea>
+                <label for="message">Message:</label>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn btn-prev" id="prevBtn">Previous</button>
+                <button type="button" class="btn btn-next" id="nextBtn">Next</button>
+                <button type="submit" class="btn btn-submit" id="submitBtn">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+    </script>
 </body>
 </html>
