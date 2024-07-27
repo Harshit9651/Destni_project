@@ -222,9 +222,8 @@
     .sidebar {
       height: 100%;
     }
-  }
-
-  @media (max-width: 767px) {
+   }
+   @media (max-width: 767px) {
     .sidebar {
       width: 100%;
       position: fixed;
@@ -236,53 +235,57 @@
       align-items: center;
       z-index: 100;
       padding: 0;
+      margin-top: 60px; /* Adjust this value as needed */
+      padding-top: 10px; /* Add space at the top */
     }
-
+  
     .content {
       margin-bottom: 60px;
     }
-
+  
     .menu {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       width: 100%;
     }
-
+  
     .menu li {
       margin-bottom: 0;
     }
-
+  
     .menu li a {
       padding: 5px;
       font-size: 16px;
     }
-
+  
     .search-bar input {
       flex-grow: 1;
     }
-
+  
     .search-bar .message-icon {
       width: 40px;
       height: 40px;
     }
-
+  
     .more-button {
       display: none;
     }
-
+  
     .sidebar-header {
       display: none;
     }
-
+  
     .menu li a.hide-on-mobile {
       display: none;
     }
+    
+    #profileLink {
+      display: block;
+    }
   }
-
-  .fa-home {
-    margin-right: 5px;
-  }
+  
+ 
 /*logo*/
 /* Logo Styling */
 .sidebar-header {
@@ -390,4 +393,7 @@ display: block; /* Ensure it is visible on mobile */
 #profileLink {
   display: none; /* Hide on mobile view */
 }
+}
+#profileLink {
+    display: block; /* Ensure it is visible on mobile */
 }
