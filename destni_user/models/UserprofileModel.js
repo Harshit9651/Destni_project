@@ -31,6 +31,16 @@ const userProfileSchema = new mongoose.Schema({
     required: [true, 'State is required'],
     trim: true,
   },
+  photo: {
+    type: String,
+    // required: [true, 'State is required'],
+    // trim: true,
+  },
+  bio: {
+    type: String,
+    // required: [true, 'State is required'],
+    // trim: true,
+  },
   pincode: {
     type: String,
     required: [true, 'Pincode is required'],

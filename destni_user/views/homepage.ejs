@@ -4,28 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to Destni</title>
-  <link rel="stylesheet" href="/destni_user/public/css/homepage.css">
- 
-  <style>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <link rel="stylesheet" href="/css/homepage.css">
+
+
+<style>
+    /* Add any custom CSS here */
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <div class="container">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <img src="destni.jpg" alt="destni_logo" class="logo">
-        </div>
-     
- 
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="/images/destni_logo.jpg" alt="destni_logo" class="logo">
+      </div>
       <ul class="menu">
-        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fa-solid fa-house"></i>Home</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
         <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
         <li><a href="#" id="profileLink">See Your Profile</a></li>
-        <li><div class="more-button" onclick="toggleMoreOptions()">More </div> </li>
-     
+        <li><div class="more-button">More</div></li>
       </ul>
       <div class="more-options" id="moreOptions">
         <a href="#"><i class="fas fa-moon"></i> Switch Appearance</a>
@@ -37,15 +38,14 @@
       <div class="search-bar">
         <input type="text" placeholder="Enter Destination ...">
         <div class="message-icon tooltip">
-          <i class="fa-solid fa-plus"></i>
-          <span class="tooltip-text">Add Your new Destination</span>
-         
+          <i class="fas fa-plus"></i>
+          <span class="tooltip-text">Add Your New Destination</span>
         </div>
         <div class="signin">
-            <a href=""> SignIn </a>
+          <a href="#">SignIn</a>
         </div>
         <div class="signup">
-            <a href=""> SignUp</a>
+          <a href="#">SignUp</a>
         </div>
       </div>
       <div class="posts">
@@ -85,6 +85,37 @@
     </main>
   </div>
 
- <script src="destni_user/public/js/homepage.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const moreButton = document.querySelector('.more-button');
+      if (moreButton) {
+        moreButton.addEventListener('click', toggleMoreOptions);
+      }
+
+      const profileLink = document.getElementById('profileLink');
+      if (profileLink) {
+        profileLink.addEventListener('click', (event) => {
+          event.preventDefault(); // Prevent the default link behavior
+
+          // Check the window width to determine if it's a mobile or desktop
+          if (window.innerWidth < 768) {
+            window.location.href = 'mobile-profile.html'; // URL for mobile profile page
+          } else {
+            window.location.href = 'desktop-profile.html'; // URL for desktop profile page
+          }
+        });
+      }
+    });
+
+    function toggleMoreOptions() {
+      const moreOptions = document.getElementById('moreOptions');
+      if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
+        moreOptions.style.display = 'block';
+      } else {
+        moreOptions.style.display = 'none';
+      }
+    }
+  </script>
+  
 </body>
 </html>

@@ -30,16 +30,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],  // Allows inline scripts
-      styleSrc: ["'self'", "'unsafe-inline'"],   // Allows inline styles
-      // Add other directives as needed
-    },
-  })
-);
+// app.use(helmet());
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: ["'self'", "'unsafe-inline'"],
+//       styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+//       // Add other directives as needed
+//     },
+//   })
+// );
+
 const store = new RedisStore({ client: redisClient });
 app.use(cors());
 app.use(flash());
@@ -78,6 +80,18 @@ app.get('/hello', (req, res) => {
 app.listen(PORT, () => {
   console.log(Constants.Applog);
 });
+app.get('/',(req,res)=>{
+res.render("homepage.ejs")
+})
+app.get('/1',(req,res)=>{
+  res.render("destniform.ejs")
+  })
 
 
-
+app.get('/test',(req,res)=>{
+res.render('test.ejs')
+})
+app.post('/upload-profile-photo',(req,res)=>{
+  res.send('aa thu ')
+  
+})
