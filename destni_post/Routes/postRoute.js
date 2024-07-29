@@ -7,7 +7,7 @@ router.post('/posts/create',postController.postAction)
 router.get('/like',postController.likePost);
 router.get("/renderpostdetail",postController.renderpostdetailpage);
 router.post('/postdetail',postController.getPostWithDetails);
-
+router.get('/renderallposts',postController.listAllposts);
 
 
 

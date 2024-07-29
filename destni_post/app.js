@@ -76,7 +76,7 @@ app.use('/destni_post/protectedRoute', protectedroute);
 app.use('/destni_post/Report', ReportRoute);
 
 app.get('/', authenticateUser, async (req, res) => {
-  res.send(`User ID from session: ${req.session.userId}`);
+  res.send(`User ID from  ma ki maru bhosi session: ${req.session.userId}`);
 });
 
 server.listen(PORT, () => {

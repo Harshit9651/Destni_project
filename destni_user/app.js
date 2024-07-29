@@ -17,6 +17,7 @@ const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
 const path = require('path');
 const cors = require('cors');
+const axios = require('axios')
 
 require('./Server/connection.js');
 dotenv.config();
@@ -112,3 +113,8 @@ app.get('/hello', (req, res) => {
   console.log('Session userId:', req.session.userId);
   res.send(req.session.userId);
 });
+app.get('/render',async(req,res)=>{
+const response = await axios.get('http://localhost:3002/destni_post/renderallposts');
+console.log(response.data);
+res.send(response.data)
+})

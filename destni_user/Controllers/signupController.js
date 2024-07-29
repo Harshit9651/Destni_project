@@ -43,7 +43,7 @@ exports.signup = async (req, res) => {
       email,
     });
     await newUser.save();
-    const token = jwt.sign({ id: newUser._id, username: newUser.username }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: newUser._id, username: newUser.username }, JWT_SECRET, { expiresIn: '3h' });
     res.cookie('token', token, { httpOnly: true, secure: false });
     req.session.userId = newUser._id;
     console.log(req.session.userId)

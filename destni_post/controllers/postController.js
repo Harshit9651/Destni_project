@@ -24,7 +24,7 @@ exports.postAction = async (req, res, next) => {
     if (error) {
       throw createError(statuscode.CLIENT_ERROR.BAD_REQUEST.code, error.details[0].message);
     }
-    const newPost = new postModel({
+    const newPost = new post({
       caption,
       postImageUrl,
      userId:req.session.userId,
@@ -99,3 +99,11 @@ exports.getPostWithDetails = async (req, res) => {
     res.status(500).send({ error: 'An error occurred' });
   }
 };
+exports.listAllposts = async(req,res)=>{
+  try{
+    const postdata = await  post.find({});
+res.send(postdata);
+  }catch(error){
+    res.status(500).send({ error: 'An error occurred' });
+  }
+}
