@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/',UserController.renderProfilePage);
 router.post('/profiledata',UserController.profileform)
+router.post('/update-bio',UserController.updatedBio);
+router.post('/update-profile-photo',UserController.updatedBio);
 
 
 

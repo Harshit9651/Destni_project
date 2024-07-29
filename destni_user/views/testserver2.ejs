@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notification Example</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    .notification-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 300px;
+    }
+    .notification {
+      background-color: #444;
+      color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div id="notificationContainer" class="notification-container"></div>
+
+  <script>
+    const userId = '66a63233283b6d3d30fa3b1c'; // Ashish's user ID
+    const socket = io('http://localhost:3001');
+
+    socket.on('connect', () => {
+      console.log('Connected to server');
+      socket.emit('join', userId);
+    });
+
+    socket.on('receiveNotification', (data) => {
+      console.log('Received notification:', data);
+      displayNotification(data);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
+
+    function displayNotification(data) {
+      const notificationContainer = document.getElementById('notificationContainer');
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.innerText = data.message;
+      notificationContainer.appendChild(notification);
+
+      setTimeout(() => {
+        notificationContainer.removeChild(notification);
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

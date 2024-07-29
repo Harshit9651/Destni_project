@@ -11,6 +11,7 @@ const signupRoute = require("./Routes/signupRoute.js");
 const signinRoute = require("./Routes/signinRoute.js");
  const userprofileRoute = require("./Routes/userProfileRoute.js");
  const travelRoute = require('./Routes/travelRoute.js');
+ const sessionRoute = require("./Routes/sessionRoute.js");
  const redisClient = require('./Redis/redis.js'); 
 const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
@@ -43,39 +44,54 @@ app.use(cookieParser());
 // );
 
 const store = new RedisStore({ client: redisClient });
-app.use(cors());
+// Enable CORS with credentials
+app.use(cors({
+  origin: 'http://localhost:3002', // Adjust this to your client origin
+  credentials: true
+}));
 app.use(flash());
+// app.use(session({
+//   store: store,
+//   secret: SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     maxAge: 1000 * 60 * 60 * 24, // 1 day
+//   },
+// }));
 app.use(session({
-  store: store,
+  store:store,
   secret: SESSION_SECRET,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
+    secure: false, // Set secure to true if using HTTPS in production
+    httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24, // 1 day
-  },
+  }
 }));
 
 // Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: Constants.LIMIT_MAX_LIMIT,
-  message: Constants.LIMITER_NOTIFICATION,
-});
-app.use(limiter);
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: Constants.LIMIT_MAX_LIMIT,
+//   message: Constants.LIMITER_NOTIFICATION,
+// });
+// app.use(limiter);
 
 // Routes
 app.use('/user', signupRoute);
 app.use('/user/signin',signinRoute)
 app.use('/user/profile',userprofileRoute)
 app.use('/user/travel', travelRoute);
+app.use('/user/checkuser',sessionRoute)
 
 // Test Route
 app.get('/hello', (req, res) => {
   console.log(req.session); // Log the whole session object
   console.log('Session userId:', req.session.userId);
-  res.send( req.session.userId);
+  res.send(req.session.userId);
 });
-
 // Start the server
 app.listen(PORT, () => {
   console.log(Constants.Applog);
@@ -91,7 +107,8 @@ app.get('/1',(req,res)=>{
 app.get('/test',(req,res)=>{
 res.render('test.ejs')
 })
-app.post('/upload-profile-photo',(req,res)=>{
-  res.send('aa thu ')
-  
-})
+app.get('/hello', (req, res) => {
+  console.log(req.session); // Log the whole session object
+  console.log('Session userId:', req.session.userId);
+  res.send(req.session.userId);
+});

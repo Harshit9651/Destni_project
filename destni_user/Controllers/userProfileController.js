@@ -9,7 +9,7 @@ require('dotenv').config();
 
 exports.renderProfilePage = (req, res) => {
   try {
-    res.render('index');
+    res.render('userprofile.ejs');
   } catch (error) {
     res.status(statusCodes.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).json({ error: 'Error occurred while rendering the signup page' });
   }
@@ -23,6 +23,11 @@ exports.profileform = async (req, res) => {
   const { fname, lname, city, state, pincode, pnumber } = req.body;
   console.log(fname, lname, city, state, pincode, pnumber);
 
+  const userid = req.session.userId;
+  console.log(userid);
+  if(!userid){
+    return res.status(statusCodes.CLIENT_ERROR.BAD_REQUEST.code).json({ error: 'Please Signin ' });
+  }
   if (!fname || !lname || !city || !state || !pincode || !pnumber) {
     return res.status(statusCodes.CLIENT_ERROR.BAD_REQUEST.code).json({ error: 'Please fill all sections correctly' });
   }
@@ -59,7 +64,8 @@ exports.profileform = async (req, res) => {
       city,
       state,
       pincode,
-      pnumber
+      pnumber,
+      userId:req.session.userId
     });
 
   const userprofile =   await newUser.save();
@@ -72,3 +78,15 @@ console.log(userprofile);
     res.status(statusCodes.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).json({ error: 'Internal server error' });
   }
 };
+exports.updatedBio = async(req,res)=>{
+  try {
+     const { userId, bio } = req.body;
+    console.log(bio)
+    // await User.findByIdAndUpdate(userId, { bio });
+    res.status(200).json({ message: 'hyy helo' });
+    console.log("ehllo")
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating bio' });
+  }
+
+}

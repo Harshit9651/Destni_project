@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User profile - Destni</title>
+    <title>User Profile - Destni</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="/destni_user/public/css/destniform.css">
+    <link rel="stylesheet" href="/css/destniform.css">
+ 
 </head>
 <body>
     <div class="progress-bar-container">
@@ -13,15 +14,15 @@
         <div class="progress-percent" id="progressPercent">0%</div>
     </div>
     <div class="form-container">
-        <h1 class="title">profile</h1>
+        <h1 class="title">Profile</h1>
         <form id="travelForm" action="/user/profile/profiledata" method="post">
             <div class="form-group" id="step-1">
-                <input type="text" id="fname" name="fname" required >
-                <label for="fname">Fname:</label>
+                <input type="text" id="fname" name="fname" required>
+                <label for="fname">First Name:</label>
             </div>
             <div class="form-group" id="step-2">
-                <input type="text" id="Lname" name="lname" required >
-                <label for="Lname">Lname:</label>
+                <input type="text" id="lname" name="lname" required>
+                <label for="lname">Last Name:</label>
             </div>
             <div class="form-group" id="step-3">
                 <input type="text" id="city" name="city" required>
@@ -32,23 +33,20 @@
                 <label for="state">State:</label>
             </div>
             <div class="form-group" id="step-5">
-                <input type="tel" id="pincode" name="pincode" required >
+                <input type="tel" id="pincode" name="pincode" required>
                 <label for="pincode">Pincode:</label>
             </div>
-
-            
             <div class="form-group" id="step-6">
                 <input type="tel" id="pnumber" name="pnumber" required>
-                <label for="pnumber">pnumber:</label>
+                <label for="pnumber">Phone Number:</label>
             </div>
             <div class="buttons">
-                <button type="button" class="btn btn-prev" id="prevBtn">Previous</button>
-                <button type="button" class="btn btn-next" id="nextBtn">Next</button>
+                <button type="button" class="btn btn-prev" id="prevBtn" onclick="prevStep()">Previous</button>
+                <button type="button" class="btn btn-next" id="nextBtn" onclick="nextStep()">Next</button>
                 <button type="submit" class="btn btn-submit" id="submitBtn">Submit</button>
             </div>
         </form>
     </div>
-    <script src="/destni_user/public/js/destniform.js">
-    </script>
+    <script src="/js/destniform.js"></script>
 </body>
 </html>

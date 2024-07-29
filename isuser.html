@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notification Example</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    .notification-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 300px;
+    }
+
+    .notification {
+      background-color: #444;
+      color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div id="notificationContainer" class="notification-container"></div>
+  
+  <button onclick="sendNotification()">Send Notification</button>
+
+  <script>
+    const socket = io('http://localhost:3000');
+    
+    socket.on('receiveNotification', (data) => {
+      displayNotification(data);
+    });
+
+    function displayNotification(data) {
+      const notificationContainer = document.getElementById('notificationContainer');
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.innerText = data.message;
+      notificationContainer.appendChild(notification);
+      
+      setTimeout(() => {
+        notificationContainer.removeChild(notification);
+      }, 5000);
+    }
+
+    function sendNotification() {
+      const message = 'You have a new follower!';
+      socket.emit('sendNotification', { message });
+    }
+  </script>
+</body>
+</html>

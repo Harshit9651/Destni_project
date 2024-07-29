@@ -1,3 +1,4 @@
+// 
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
@@ -16,17 +17,16 @@ const io = socketIo(server);
 const redisClient = require('./Redis/redis.js'); 
 const commentRoute = require("./Routes/commentRoute.js");
 const savepost = require("./Routes/savepostRoute.js");
- const { authenticateUser } = require('./Auth/authentication.js');
- const protectedroute = require("./Routes/sessionRoute.js")
+const { authenticateUser } = require('./Auth/authentication.js');
+const protectedroute = require("./Routes/sessionRoute.js");
 const postRoute = require("./Routes/postRoute.js");
-const ReportRoute = require("./Routes/reportRoute.js")
+const ReportRoute = require("./Routes/reportRoute.js");
 const errorHandler = require('./middleware/errorhandler.js');
 const Constants = require('./helper/constent.js');
 
-
 const store = new RedisStore({ client: redisClient });
 const ejs = require('ejs');
-const { default: axios } = require('axios');
+const axios = require('axios');
 require('./server/connection.js');
 dotenv.config();
 const { SESSION_SECRET, PORT } = process.env;
@@ -38,36 +38,49 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(helmet());
-app.use(cors());
-app.use(session({
-  store:store,
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: Constants.session_MAX_AGE,
-  },
+app.use(cors({
+  origin: 'http://localhost:3002', // Client origin
+  credentials: true
 }));
+app.use(session({
+  store: store,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 15 // 15 days
+  },
+  // Debug session events
+  onError: (error) => {
+    console.error('Session error:', error);
+  }
+}));
+
+
 app.use(errorHandler);
 
 // Rate Limiting
 const limiter = rateLimit({
-windowMs: 15 * 60 * 1000, 
-max: Constants.LIMIT_MAX_LIMIT,
-message: Constants.LIMITER_NOTIFICATION,
+  windowMs: 15 * 60 * 1000,
+  max: Constants.LIMIT_MAX_LIMIT,
+  message: Constants.LIMITER_NOTIFICATION,
 });
 app.use(limiter);
 
+app.use('/destni_post', postRoute);
+app.use('/destni_post/comment', commentRoute);
+app.use('/destni_post/savepost', savepost);
+app.use('/destni_post/protectedRoute', protectedroute);
+app.use('/destni_post/Report', ReportRoute);
 
-app.use('/destni_post',postRoute);
-app.use("/destni_post/comment",commentRoute)
-app.use("/destni_post/savepost",savepost)
-app.use("/destni_post/protectedRoute",protectedroute);
-app.use("/destni_post/Report",ReportRoute);
+app.get('/', authenticateUser, async (req, res) => {
+  res.send(`User ID from session: ${req.session.userId}`);
+});
 
-
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
+
 

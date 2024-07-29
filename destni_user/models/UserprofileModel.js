@@ -61,6 +61,10 @@ const userProfileSchema = new mongoose.Schema({
       message: 'Phone number must be a 10-digit number',
     },
   },
+  userId:{
+type:String,
+required: [true, 'please signin :::::'],
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.models.User || mongoose.model('User', userProfileSchema);

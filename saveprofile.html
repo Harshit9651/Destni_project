@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
-  <!-- <link rel="stylesheet" href="/css/profile.css"> -->
+  <link rel="stylesheet" href="/css/profile.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
 
@@ -372,6 +372,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+ 
   <script>
     function openModal() {
       document.getElementById('bioModal').style.display = 'block';
@@ -398,6 +399,53 @@
       });
     }
   
+    function showCropper(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#cropperImage').attr('src', e.target.result);
+          $('#cropperModal').css('display', 'block');
+          var image = document.getElementById('cropperImage');
+          var cropper = new Cropper(image, {
+            aspectRatio: 1,
+            viewMode: 3,
+            background: false,
+            zoomable: false,
+          });
+          $('#cropperModal').data('cropper', cropper);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  
+    function closeCropperModal() {
+      var cropper = $('#cropperModal').data('cropper');
+      cropper.destroy();
+      $('#cropperModal').css('display', 'none');
+    }
+  
+    function cropAndUpload() {
+      var cropper = $('#cropperModal').data('cropper');
+      cropper.getCroppedCanvas().toBlob(function(blob) {
+        var formData = new FormData();
+        formData.append('photo', blob);
+        formData.append('userId', 'USER_ID'); // Replace with the actual user ID
+  
+        axios.post('http://localhost:3001/user/profile/update-profile-photo', formData)
+          .then(response => {
+            alert('Upload successful!');
+            // Update the profile photo on the page
+            document.querySelectorAll('.profile-photo img, .profile-details-card img').forEach(img => {
+              img.src = response.data.photoUrl;
+            });
+            closeCropperModal();
+          })
+          .catch(error => {
+            console.error('Error uploading photo:', error);
+            alert('Upload failed!');
+          });
+      });
+    }
   </script>
   
 </body>

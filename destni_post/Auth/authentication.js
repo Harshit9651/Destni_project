@@ -24,14 +24,28 @@ exports.authenticateUser = async (req, res, next) => {
       return res.status(CLIENT_ERROR.UNAUTHORIZED.code).json({ message: CLIENT_ERROR_MESSAGES.UNAUTHORIZED.message });
     }
 
-    const response = await axios.get('http://localhost:3001/user/protectedRoute', {
-      headers: { 'Authorization': token }
+    const response = await axios.get('http://localhost:3001/user/checkuser/sessionId', {
+      headers: {
+        'Authorization': token,
+        'Cookie': req.headers.cookie
+      },
+      withCredentials: true
     });
 
     console.log('Response from destni_user:', response.data);
 
-    req.user = response.data.user;
-    next();
+    // req.session.userId = response.data.user;
+    req.session.userId = response.data
+
+    req.session.save(err => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(CLIENT_ERROR.UNAUTHORIZED.code).json({ message: CLIENT_ERROR_MESSAGES.UNAUTHORIZED.message });
+      }
+
+      console.log('Session userId:', req.session.userId);
+      next();
+    });
   } catch (error) {
     if (error.response && error.response.status) {
       console.error('Authentication error:', error.response.data);
