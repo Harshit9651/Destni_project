@@ -3,65 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notification Example</title>
-  <script src="/socket.io/socket.io.js"></script>
+  <title>Welcome to Destni</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/homepage.css">
+
   <style>
-    .notification-container {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      width: 300px;
-    }
-    .notification {
-      background-color: #444;
-      color: #fff;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
+    /* Add any custom CSS here */
   </style>
 </head>
 <body>
-  <div id="notificationContainer" class="notification-container"></div>
-  <button onclick="sendFollowRequest()">Send Follow Request</button>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="/images/destni_logo.jpg" alt="destni_logo" class="logo">
+      </div>
+      <ul class="menu">
+        <li><a href="#"><i class="fa-solid fa-house"></i>Home</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
+        <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
+        <li><a href="#" id="profileLink">See Your Profile</a></li>
+        <li><div class="more-button">More</div></li>
+      </ul>
+      <div class="more-options" id="moreOptions">
+        <a href="#"><i class="fas fa-moon"></i> Switch Appearance</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        <a href="#"><i class="far fa-bookmark"></i> Saved Items</a>
+      </div>
+    </aside>
+    <main class="content">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Enter Destination ..." oninput="handleSearch(event)">
+        <div class="message-icon tooltip">
+          <i class="fas fa-plus"></i>
+          <span class="tooltip-text">Add Your New Destination</span>
+        </div>
+        <div class="signin">
+          <a href="/user/signin/">SignIn</a>
+        </div>
+        <div class="signup">
+          <a href="/user/">SignUp</a>
+        </div>
+      </div>
+      <div class="posts" id="postsContainer"></div>
+    </main>
+  </div>
 
   <script>
-    const userId = '66a631f0283b6d3d30fa3b1a'; // Harshit's user ID
-    const socket = io('http://localhost:3001');
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchPosts();
 
-    socket.on('connect', () => {
-      console.log('Connected to server');
-      socket.emit('join', userId);
+      const moreButton = document.querySelector('.more-button');
+      if (moreButton) {
+        moreButton.addEventListener('click', toggleMoreOptions);
+      }
+
+      const profileLink = document.getElementById('profileLink');
+      if (profileLink) {
+        profileLink.addEventListener('click', (event) => {
+          event.preventDefault(); // Prevent the default link behavior
+
+          // Check the window width to determine if it's a mobile or desktop
+          if (window.innerWidth < 768) {
+            window.location.href = 'mobile-profile.html'; // URL for mobile profile page
+          } else {
+            window.location.href = 'desktop-profile.html'; // URL for desktop profile page
+          }
+        });
+      }
     });
 
-    socket.on('receiveNotification', (data) => {
-      console.log('Received notification:', data);
-      displayNotification(data);
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
-
-    function displayNotification(data) {
-      const notificationContainer = document.getElementById('notificationContainer');
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.innerText = data.message;
-      notificationContainer.appendChild(notification);
-
-      setTimeout(() => {
-        notificationContainer.removeChild(notification);
-      }, 5000);
+    function toggleMoreOptions() {
+      const moreOptions = document.getElementById('moreOptions');
+      if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
+        moreOptions.style.display = 'block';
+      } else {
+        moreOptions.style.display = 'none';
+      }
     }
 
-    function sendFollowRequest() {
-      const message = 'Harshit sent you a follow request!';
-      const fromUserId = userId;
-      const toUserId = '66a63233283b6d3d30fa3b1c'; // Ashish's user ID
-      console.log(`Sending follow request from ${fromUserId} to ${toUserId}`);
-      socket.emit('sendFollowRequest', { fromUserId, toUserId, message });
+    function fetchPosts() {
+      fetch('/api/posts')
+        .then(response => response.json())
+        .then(posts => renderPosts(posts))
+        .catch(error => console.error('Error fetching posts:', error));
+    }
+
+    function handleSearch(event) {
+      const query = event.target.value;
+      if (query.trim() === '') {
+        fetchPosts();
+      } else {
+        fetch(`/api/search?query=${query}`)
+          .then(response => response.json())
+          .then(posts => renderPosts(posts))
+          .catch(error => console.error('Error searching posts:', error));
+      }
+    }
+
+    function renderPosts(posts) {
+      const postsContainer = document.getElementById('postsContainer');
+      postsContainer.innerHTML = '';
+
+      posts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+
+        postElement.innerHTML = `
+          <img src="${post.image}" alt="Post Image">
+          <div class="post-details">
+            <h3>${post.title}</h3>
+            <p>${post.description}</p>
+          </div>
+          <div class="post-icons">
+            <div class="left-icons">
+              <i class="far fa-thumbs-up" data-id="${post.id}" onclick="handleLike(event, ${post.id})"></i>
+              <span class="like-count">${post.likes}</span>
+              <i class="far fa-comment"></i>
+              <span class="comment-count">${post.comments}</span>
+            </div>
+            <div class="right-icon">
+              <i class="far fa-bookmark" data-id="${post.id}" onclick="handleSave(event, ${post.id})"></i>
+            </div>
+          </div>
+        `;
+
+        postsContainer.appendChild(postElement);
+      });
+    }
+
+    function handleLike(event, postId) {
+      const likeIcon = event.target;
+      fetch(`/api/like/${postId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const likeCount = likeIcon.nextElementSibling;
+            likeCount.textContent = data.likes;
+          }
+        })
+        .catch(error => console.error('Error liking post:', error));
+    }
+
+    function handleSave(event, postId) {
+      const saveIcon = event.target;
+      fetch(`/api/save/${postId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            saveIcon.classList.toggle('saved');
+          }
+        })
+        .catch(error => console.error('Error saving post:', error));
     }
   </script>
 </body>

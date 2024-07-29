@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Destni</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline'; font-src *; connect-src *; img-src *;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <style>@keyframes highlight {
+    0% {
+        box-shadow: 0 0 0 0 #007bff;
+    }
+    100% {
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #1f1f1f;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: highlight 2s ease-out;
+    position: relative;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-header h2 {
+    font-family: 'Grand Hotel', cursive;
+    font-size: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    color: rgb(20, 58, 170);
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 60px;
+}
+
+.menu li {
+    margin-bottom: 20px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.menu li a:hover {
+    background-color: #407f9f;
+}
+
+.more-button {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #283039;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 100px;
+}
+
+.more-options {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background-color: #333333;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.more-options a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.more-options a:hover {
+    background-color: #555555;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: #2f2f2f;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: highlight 2s ease-out;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    background-color: #3f3f3f;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+.message-icon {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.message-icon .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.message-icon .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+}
+
+.message-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.signin, .signup {
+    margin-left: 10px;
+}
+
+.signin a, .signup a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #407f9f;
+    transition: background-color 0.3s ease;
+}
+
+.signin a:hover, .signup a:hover {
+    background-color: #58a4b0;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post {
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: highlight 2s ease-out;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post img {
+    width: 100%;
+    border-radius: 8px;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.post-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post-details h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.post-details p {
+    margin: 0;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.post-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.left-icons i, .right-icon i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.left-icons span, .right-icon span {
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.left-icons .fa-thumbs-up, .right-icon .fa-bookmark {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.left-icons .fa-thumbs-up:hover, .right-icon .fa-bookmark:hover {
+    color: #407f9f;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/images/destni_logo.jpg" alt="destni_logo" class="logo">
+            </div>
+            <ul class="menu">
+                <li><a href="#"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
+                <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
+                <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
+                <li><a href="#" id="profileLink">See Your Profile</a></li>
+                <li><div class="more-button">More</div></li>
+            </ul>
+            <div class="more-options" id="moreOptions">
+                <a href="#"><i class="fas fa-moon"></i> Switch Appearance</a>
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                <a href="#"><i class="far fa-bookmark"></i> Saved Items</a>
+            </div>
+        </aside>
+        <main class="content">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Enter Destination ..." oninput="handleSearch(event)">
+                <div class="message-icon tooltip">
+                    <i class="fas fa-plus"></i>
+                    <span class="tooltip-text">Add Your New Destination</span>
+                </div>
+                <div class="signin">
+                    <a href="/user/signin/">SignIn</a>
+                </div>
+                <div class="signup">
+                    <a href="/user/">SignUp</a>
+                </div>
+            </div>
+            <div class="posts" id="postsContainer"></div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPosts();
+
+            const moreButton = document.querySelector('.more-button');
+            if (moreButton) {
+                moreButton.addEventListener('click', toggleMoreOptions);
+            }
+
+            const profileLink = document.getElementById('profileLink');
+            if (profileLink) {
+                profileLink.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent the default link behavior
+
+                    // Check the window width to determine if it's a mobile or desktop
+                    if (window.innerWidth < 768) {
+                        window.location.href = 'mobile-profile.html'; // URL for mobile profile page
+                    } else {
+                        window.location.href = 'desktop-profile.html'; // URL for desktop profile page
+                    }
+                });
+            }
+        });
+
+        function toggleMoreOptions() {
+            const moreOptions = document.getElementById('moreOptions');
+            if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
+                moreOptions.style.display = 'block';
+            } else {
+                moreOptions.style.display = 'none';
+            }
+        }
+
+        async function fetchPosts() {
+            await axios.get('http://localhost:3002/destni_post/renderallposts')
+                .then(response => {
+                    renderPosts(response.data);
+                })
+                .catch(error => console.error('Error fetching posts:', error));
+        }
+
+        function handleSearch(event) {
+            const query = event.target.value;
+            if (query.trim() === '') {
+                fetchPosts();
+            } else {
+                axios.get(`/api/search?query=${query}`)
+                    .then(response => {
+                        renderPosts(response.data);
+                    })
+                    .catch(error => console.error('Error searching posts:', error));
+            }
+        }
+
+        function renderPosts(posts) {
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+
+                postElement.innerHTML = `
+                    <img src="${post.postImageUrl}" alt="Post Image">
+                    <div class="post-details">
+                        <h3>${post.title}</h3>
+                        <p>${post.description}</p>
+                    </div>
+                    <div class="post-icons">
+                        <div class="left-icons">
+                            <i class="far fa-thumbs-up" data-id="${post.id}" onclick="handleLike(event, ${post.id})"></i>
+                            <span class="like-count">${post.likes}</span>
+                            <i class="far fa-comment"></i>
+                            <span class="comment-count">${post.comments}</span>
+                        </div>
+                        <div class="right-icon">
+                            <i class="far fa-bookmark" data-id="${post.id}" onclick="handleSave(event, ${post.id})"></i>
+                        </div>
+                    </div>
+                `;
+
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        function handleLike(event, postId) {
+            const likeIcon = event.target;
+            axios.post(`/api/like/${postId}`)
+                .then(response => {
+                    if (response.data.success) {
+                        const likeCount = likeIcon.nextElementSibling;
+                        likeCount.textContent = response.data.likes;
+                    }
+                })
+                .catch(error => console.error('Error liking post:', error));
+        }
+
+        function handleSave(event, postId) {
+            const saveIcon = event.target;
+            axios.post(`/api/save/${postId}`)
+                .then(response => {
+                    if (response.data.success) {
+                        saveIcon.classList.toggle('saved');
+                    }
+                })
+                .catch(error => console.error('Error saving post:', error));
+        }
+    </script>
+</body>
+</html>

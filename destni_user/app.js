@@ -113,8 +113,3 @@ app.get('/hello', (req, res) => {
   console.log('Session userId:', req.session.userId);
   res.send(req.session.userId);
 });
-app.get('/render',async(req,res)=>{
-const response = await axios.get('http://localhost:3002/destni_post/renderallposts');
-console.log(response.data);
-res.send(response.data)
-})

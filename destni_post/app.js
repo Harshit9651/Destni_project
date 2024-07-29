@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3002', // Client origin
+  origin: 'http://localhost:3001', // Client origin
   credentials: true
 }));
 app.use(session({

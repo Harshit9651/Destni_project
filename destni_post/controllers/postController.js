@@ -8,6 +8,16 @@ const post = require('../models/postModel')
 const notification = require("../models/notificationModel")
 const mongoose = require('mongoose')
 const Comment = require("../models/commentModel")
+const cloudinary = require('cloudinary').v2;
+const uploadToCloudinary = async (file) => {
+  if (file && file.path) {
+    //const result = await cloudinary.uploader.upload(file.buffer.toString('base64'));
+    const result = await cloudinary.uploader.upload(file.path);
+    return result.secure_url;
+  } else {
+    throw new Error('File buffer is undefined or null');
+  }
+};
 
 exports.renderPostPage = async(req,res)=>{
     res.render("post.ejs")
@@ -15,18 +25,24 @@ exports.renderPostPage = async(req,res)=>{
 
 
 exports.postAction = async (req, res, next) => {
-  const { caption, postImageUrl, title, mediaType, postStatus, audienceVisibility, tags } = req.body;
-  console.log( caption, postImageUrl, title, mediaType, postStatus, audienceVisibility, tags)
+  const imageFile = req.files['Image'][0];
+  const IMAGE = await uploadToCloudinary(imageFile);
+  console.log(IMAGE);
+  if(!IMAGE){
+    res.send(500).send("errorore")
+  }
+  const { caption, title, mediaType, postStatus, audienceVisibility, tags } = req.body;
+  console.log( caption, title, mediaType, postStatus, audienceVisibility, tags)
   console.log("Session UserID:",req.session.userId);
   try {
   
-    const { error } = postSchema.validate(req.body);
-    if (error) {
-      throw createError(statuscode.CLIENT_ERROR.BAD_REQUEST.code, error.details[0].message);
-    }
+    // const { error } = postSchema.validate(req.body);
+    // if (error) {
+    //   throw createError(statuscode.CLIENT_ERROR.BAD_REQUEST.code, error.details[0].message);
+    // }
     const newPost = new post({
       caption,
-      postImageUrl,
+      postImageUrl:IMAGE,
      userId:req.session.userId,
       title,
       mediaType,

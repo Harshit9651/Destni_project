@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Destni</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/css/homepage.css">
-
-  <style>
-    /* Add any custom CSS here */
-  </style>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Destni</title>
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
+    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
+    font-src 'self' https://cdnjs.cloudflare.com; 
+    connect-src 'self' http://localhost:3002;
+    img-src 'self' https://example.com https://images.pexels.com https://res.cloudinary.com;"> -->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; 
+    style-src * 'unsafe-inline'; 
+    script-src * 'unsafe-inline'; 
+    font-src *; 
+    connect-src *; 
+    img-src *;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/homepage.css">
+  </head>
 <body>
   <div class="container">
     <aside class="sidebar">
@@ -19,11 +26,11 @@
         <img src="/images/destni_logo.jpg" alt="destni_logo" class="logo">
       </div>
       <ul class="menu">
-        <li><a href="#"><i class="fa-solid fa-house"></i>Home</a></li>
+        <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
         <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
-        <li><a href="#" id="profileLink">See Your Profile</a></li>
+        <li><a href="#" id="profileLink"> <img class="profile_images" src="https://media.licdn.com/dms/image/D4D03AQGVncQaKGHhqA/profile-displayphoto-shrink_400_400/0/1701080786853?e=1727913600&v=beta&t=llBom3B7ln8zJDQHKA3Hy5YrleQ0NiF4tyBkT_io3Lo" alt="use_profile_photo"> Profile</a></li>
         <li><div class="more-button">More</div></li>
       </ul>
       <div class="more-options" id="moreOptions">
@@ -50,6 +57,7 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       fetchPosts();
@@ -83,10 +91,11 @@
       }
     }
 
-    function fetchPosts() {
-      fetch('/api/posts')
-        .then(response => response.json())
-        .then(posts => renderPosts(posts))
+    async function fetchPosts() {
+      await axios.get('http://localhost:3002/destni_post/renderallposts')
+        .then(response => {
+          renderPosts(response.data);
+        })
         .catch(error => console.error('Error fetching posts:', error));
     }
 
@@ -95,9 +104,10 @@
       if (query.trim() === '') {
         fetchPosts();
       } else {
-        fetch(`/api/search?query=${query}`)
-          .then(response => response.json())
-          .then(posts => renderPosts(posts))
+        axios.get(`/api/search?query=${query}`)
+          .then(response => {
+            renderPosts(response.data);
+          })
           .catch(error => console.error('Error searching posts:', error));
       }
     }
@@ -111,10 +121,11 @@
         postElement.classList.add('post');
 
         postElement.innerHTML = `
-          <img src="${post.image}" alt="Post Image">
+          <img  src="${post.postImageUrl}" alt="Post Image">
           <div class="post-details">
             <h3>${post.title}</h3>
-            <p>${post.description}</p>
+         
+            
           </div>
           <div class="post-icons">
             <div class="left-icons">
@@ -135,12 +146,11 @@
 
     function handleLike(event, postId) {
       const likeIcon = event.target;
-      fetch(`/api/like/${postId}`, { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
+      axios.post(`/api/like/${postId}`)
+        .then(response => {
+          if (response.data.success) {
             const likeCount = likeIcon.nextElementSibling;
-            likeCount.textContent = data.likes;
+            likeCount.textContent = response.data.likes;
           }
         })
         .catch(error => console.error('Error liking post:', error));
@@ -148,10 +158,9 @@
 
     function handleSave(event, postId) {
       const saveIcon = event.target;
-      fetch(`/api/save/${postId}`, { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
+      axios.post(`/api/save/${postId}`)
+        .then(response => {
+          if (response.data.success) {
             saveIcon.classList.toggle('saved');
           }
         })
