@@ -90,3 +90,10 @@ exports.updatedBio = async(req,res)=>{
   }
 
 }
+
+exports.userprofilephoto  = async(req,res)=>{
+  console.log(req.session.userId)
+  const findprfile = await User.findById(req.session.userId);
+  res.send(findprfile);
+console.log(findprfile)
+}

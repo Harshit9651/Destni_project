@@ -61,6 +61,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       fetchPosts();
+      fetchProfileImage()
 
       const moreButton = document.querySelector('.more-button');
       if (moreButton) {
@@ -98,6 +99,26 @@
         })
         .catch(error => console.error('Error fetching posts:', error));
     }
+ 
+    async function fetchProfileImage() {
+  try {
+    const response = await axios.get('http://localhost:3001/user/profile/profilephoto');
+
+    // Check if response.data.photo is defined and not empty
+    const profileImageUrl = response.data.photo || '/images/defaultphoto.png';
+    const profileImage = document.querySelector('.profile_images');
+    profileImage.src = profileImageUrl;
+
+  } catch (error) {
+    console.error('Error fetching profile image:', error);
+    // Set default image in case of an error
+    const profileImage = document.querySelector('.profile_images');
+    profileImage.src = 'public/images/defaultphoto';
+  }
+}
+
+
+
 
     function handleSearch(event) {
       const query = event.target.value;
