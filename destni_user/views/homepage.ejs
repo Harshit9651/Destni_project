@@ -1,190 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Destni</title>
- 
-    <meta http-equiv="Content-Security-Policy" content="default-src *; 
-    style-src * 'unsafe-inline'; 
-    script-src * 'unsafe-inline'; 
-    font-src *; 
-    connect-src *; 
-    img-src *;">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/css/homepage.css">
-  </head>
-<body>
-  <div class="container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <img src="/images/destni_logo.jpg" alt="destni_logo" class="logo">
-      </div>
-      <ul class="menu">
-        <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
-        <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
-        <li><a href="#" id="profileLink"> <img class="profile_images" src="https://media.licdn.com/dms/image/D4D03AQGVncQaKGHhqA/profile-displayphoto-shrink_400_400/0/1701080786853?e=1727913600&v=beta&t=llBom3B7ln8zJDQHKA3Hy5YrleQ0NiF4tyBkT_io3Lo" alt="use_profile_photo"> Profile</a></li>
-        <li><div class="more-button">More</div></li>
-      </ul>
-      <div class="more-options" id="moreOptions">
-        <a href="#"><i class="fas fa-moon"></i> Switch Appearance</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-        <a href="#"><i class="far fa-bookmark"></i> Saved Items</a>
-      </div>
-    </aside>
-    <main class="content">
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Enter Destination ..." oninput="handleSearch(event)">
-        <div class="message-icon tooltip">
-          <i class="fas fa-plus"></i>
-          <span class="tooltip-text">Add Your New Destination</span>
-        </div>
-        <div class="signin">
-          <a href="/user/signin/">SignIn</a>
-        </div>
-        <div class="signup">
-          <a href="/user/">SignUp</a>
-        </div>
-      </div>
-      <div class="posts" id="postsContainer"></div>
-    </main>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchPosts();
-      fetchProfileImage()
-
-      const moreButton = document.querySelector('.more-button');
-      if (moreButton) {
-        moreButton.addEventListener('click', toggleMoreOptions);
-      }
-
-      const profileLink = document.getElementById('profileLink');
-      if (profileLink) {
-        profileLink.addEventListener('click', (event) => {
-          event.preventDefault(); // Prevent the default link behavior
-
-           
-          if (window.innerWidth < 768) {
-            window.location.href = 'mobile-profile.html';
-          } else {
-            window.location.href = 'desktop-profile.html'; 
-          }
-        });
-      }
-    });
-
-    function toggleMoreOptions() {
-      const moreOptions = document.getElementById('moreOptions');
-      if (moreOptions.style.display === 'none' || moreOptions.style.display === '') {
-        moreOptions.style.display = 'block';
-      } else {
-        moreOptions.style.display = 'none';
-      }
-    }
-
-    async function fetchPosts() {
-      await axios.get('http://localhost:3002/destni_post/renderallposts')
-        .then(response => {
-          renderPosts(response.data);
-        })
-        .catch(error => console.error('Error fetching posts:', error));
-    }
- 
-    async function fetchProfileImage() {
-  try {
-    const response = await axios.get('http://localhost:3001/user/profile/profilephoto');
-
-   
-    const profileImageUrl = response.data.photo || '/images/defaultphoto.png';
-    const profileImage = document.querySelector('.profile_images');
-    profileImage.src = profileImageUrl;
-  } catch (error) {
-    console.error('Error fetching profile image:', error);
-    const profileImage = document.querySelector('.profile_images');
-    profileImage.src = 'public/images/defaultphoto';
-  }
-}
-
-
-
-
-    function handleSearch(event) {
-      const query = event.target.value;
-      if (query.trim() === '') {
-        fetchPosts();
-      } else {
-        axios.get(`/api/search?query=${query}`)
-          .then(response => {
-            renderPosts(response.data);
-          })
-          .catch(error => console.error('Error searching posts:', error));
-      }
-    }
-
-    function renderPosts(posts) {
-      const postsContainer = document.getElementById('postsContainer');
-      postsContainer.innerHTML = '';
-
-      posts.forEach(post => {
-        const postElement = document.createElement('div');
-        postElement.classList.add('post');
-
-        postElement.innerHTML = `
-          <img  src="${post.postImageUrl}" alt="Post Image">
-          <div class="post-details">
-            <h3>${post.title}</h3>
-         
-            
-          </div>
-          <div class="post-icons">
-            <div class="left-icons">
-              <i class="far fa-thumbs-up" data-id="${post.id}" onclick="handleLike(event, ${post.id})"></i>
-              <span class="like-count">${post.likes}</span>
-              <i class="far fa-comment"></i>
-              <span class="comment-count">${post.comments}</span>
-            </div>
-            <div class="right-icon">
-              <i class="far fa-bookmark" data-id="${post.id}" onclick="handleSave(event, ${post.id})"></i>
-            </div>
-          </div>
-        `;
-
-        postsContainer.appendChild(postElement);
-      });
-    }
-
-    function handleLike(event, postId) {
-  const likeIcon = event.target;
-  axios.post(`http://localhost:3002/destni_post/like/like_unlike_post/${postId}`)
-    .then(response => {
-      console.log(response.data);
-      if (response.data.success) {
-        const likeCount = likeIcon.nextElementSibling;
-        likeCount.textContent = response.data.likes;
-      }
-    })
-    .catch(error => console.error('Error liking post:', error));
-}
-
-
-    function handleSave(event, postId) {
-      const saveIcon = event.target;
-      axios.post(`/api/save/${postId}`)
-        .then(response => {
-          if (response.data.success) {
-            saveIcon.classList.toggle('saved');
-          }
-        })
-        .catch(error => console.error('Error saving post:', error));
-    }
-  </script>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -323,14 +137,14 @@
           </div>
           <div class="post-icons">
             <div class="left-icons">
-              <i class="far fa-thumbs-up" data-id="${post._id}" onclick="handleLike(event, '${post._id}')"></i>
+              <i class="fa-regular fa-heart" data-id="${post._id}" onclick="handleLike(event, '${post._id}')"></i>
               <span class="like-count">${post.likes}</span>
               <i class="far fa-comment"></i>
               <span class="comment-count">${post.comments}</span>
             </div>
-            <div class="right-icon">
-              <i class="far fa-bookmark" data-id="${post._id}" onclick="handleSave(event, '${post._id}')"></i>
-            </div>
+             <div class="right-icon">
+    <i class="far fa-bookmark" data-id="${post._id}" onclick="handleSave(event, '${post._id}')"></i>
+  </div>
           </div>
         `;
 
@@ -338,47 +152,51 @@
       });
     }
 
-    // function handleLike(event, postId) {
-    //   const likeIcon = event.target;
-    //   axios.post(`http://localhost:3002/destni_post/like/like_unlike_post/${postId}`, {}, { withCredentials: true })
-    //     .then(response => {
-    //       console.log(response.data);
-    //       if (response.data.success) {
-    //         const likeCount = likeIcon.nextElementSibling;
-    //         likeCount.textContent = response.data.likes;
-    //       }
-    //     })
-    //     .catch(error => console.error('Error liking post:', error));
-    // }
+ 
 
     function handleLike(event, postId) {
   const icon = event.target;
-  const isActive = icon.classList.contains('active');
+  const isLiked = icon.classList.contains('liked');
   
   axios.post(`http://localhost:3002/destni_post/like/like_unlike_post/${postId}`, {}, { withCredentials: true })
     .then(response => {
       if (response.data.success) {
-        if (isActive) {
-          icon.classList.remove('active');
-          icon.nextElementSibling.textContent = response.data.likes;
+        if (isLiked) {
+          icon.classList.remove('fa-solid', 'fa-heart', 'liked');
+          icon.classList.add('fa-regular', 'fa-heart');
         } else {
-          icon.classList.add('active');
-          icon.nextElementSibling.textContent = response.data.likes;
+          icon.classList.remove('fa-regular', 'fa-heart');
+          icon.classList.add('fa-solid', 'fa-heart', 'liked');
         }
+        icon.nextElementSibling.textContent = response.data.likes;
       }
     })
     .catch(error => console.error('Error liking post:', error));
 }
-    function handleSave(event, postId) {
-      const saveIcon = event.target;
-      axios.post(`/api/save/${postId}`)
-        .then(response => {
-          if (response.data.success) {
-            saveIcon.classList.toggle('saved');
-          }
-        })
-        .catch(error => console.error('Error saving post:', error));
-    }
+function handleSave(event, postId) {
+  const icon = event.target;
+  const isSaved = icon.classList.contains('saved');
+  
+  axios.post(`http://localhost:3002/destni_post/savepost/savepostdata/${postId}`, {}, { withCredentials: true })
+    .then(response => {
+      if (response.data.message === 'Success') {
+        if (isSaved) {
+          // Remove saved class and switch to default state
+          icon.classList.remove('saved', 'fa-solid');
+          icon.classList.add('far');
+          icon.style.color = 'gray'; // Reset to default color
+        } else {
+          // Add saved class and switch to saved state
+          icon.classList.add('saved', 'fa-solid');
+          icon.classList.remove('far');
+          icon.style.color = 'white'; // Set color to white
+        }
+      }
+    })
+    .catch(error => console.error('Error saving post:', error));
+}
+
+
   </script>
 </body>
 </html>

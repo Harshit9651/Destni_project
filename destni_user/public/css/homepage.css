@@ -466,19 +466,18 @@ display: block; /* Ensure it is visible on mobile */
   display: inline-block;
   font-size: 18px;
   color: #ffffff;
-}
+ }/*
 .post-icons .left-icons i, 
 .post-icons .right-icon i {
   transition: color 0.3s, transform 0.3s;
 }
 
-.post-icons .left-icons i.active, 
-.post-icons .right-icon i.active {
-  color: red; /* For like and save icons when active */
+.post-icons .left-icons i.liked {
+  color: rgb(180, 31, 31);
 }
 
-.post-icons .left-icons i.saved {
-  color: white; /* For save icon when active */
+.post-icons .right-icon i.saved {
+  color: white; 
 }
 
 .post-icons .left-icons i, 
@@ -488,5 +487,39 @@ display: block; /* Ensure it is visible on mobile */
 
 .post-icons .left-icons i:hover, 
 .post-icons .right-icon i:hover {
+  transform: scale(1.2); 
+} */
+.post-icons .left-icons i,
+.post-icons .right-icon i {
+  transition: color 0.3s, transform 0.3s;
+}
+
+.post-icons .left-icons i.liked {
+  color: rgb(180, 31, 31); /* Light red color for liked icon */
+}
+
+.post-icons .right-icon i.saved {
+  color: white; /* Color for saved icon */
+}
+
+.post-icons .left-icons i,
+.post-icons .right-icon i {
+  cursor: pointer;
+}
+
+.post-icons .left-icons i:hover,
+.post-icons .right-icon i:hover {
   transform: scale(1.2); /* Scale icon on hover */
+}
+
+.fa-bookmark {
+  transition: color 0.3s, transform 0.3s;
+}
+
+.fa-solid.fa-bookmark {
+  color: white;
+}
+
+.far.fa-bookmark {
+  color: gray; /* Default color */
 }
