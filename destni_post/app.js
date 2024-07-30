@@ -21,6 +21,7 @@ const { authenticateUser } = require('./Auth/authentication.js');
 const protectedroute = require("./Routes/sessionRoute.js");
 const postRoute = require("./Routes/postRoute.js");
 const ReportRoute = require("./Routes/reportRoute.js");
+const LikeRoute = require("./Routes/likeRoute.js");
 const errorHandler = require('./middleware/errorhandler.js');
 const Constants = require('./helper/constent.js');
 
@@ -74,6 +75,8 @@ app.use('/destni_post/comment', commentRoute);
 app.use('/destni_post/savepost', savepost);
 app.use('/destni_post/protectedRoute', protectedroute);
 app.use('/destni_post/Report', ReportRoute);
+app.use('/destni_post/like',LikeRoute);
+
 
 app.get('/', authenticateUser, async (req, res) => {
   res.send(`User ID from  ma ki maru bhosi session: ${req.session.userId}`);
