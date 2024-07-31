@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,10 +20,10 @@
         <img src="/images/destni_logo.jpg" alt="destni_logo" class="logo">
       </div>
       <ul class="menu">
-        <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="http://localhost:3001/"><i class="fa-solid fa-house"></i> Home</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
-        <li><a href="#"><i class="fas fa-plus"></i> Add Post</a></li>
+        <li><a href="http://localhost:3002/destni_post/createPost"><i class="fas fa-plus"></i> Add Post</a></li>
         <li><a href="#" id="profileLink"> <img class="profile_images" src="https://media.licdn.com/dms/image/D4D03AQGVncQaKGHhqA/profile-displayphoto-shrink_400_400/0/1701080786853?e=1727913600&v=beta&t=llBom3B7ln8zJDQHKA3Hy5YrleQ0NiF4tyBkT_io3Lo" alt="use_profile_photo"> Profile</a></li>
         <li><div class="more-button">More</div></li>
       </ul>
@@ -38,8 +37,10 @@
       <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Enter Destination ..." oninput="handleSearch(event)">
         <div class="message-icon tooltip">
+          <a href="http://localhost:3001/user/travel/destniform">
           <i class="fas fa-plus"></i>
           <span class="tooltip-text">Add Your New Destination</span>
+          </a>
         </div>
         <div class="signin">
           <a href="/user/signin/">SignIn</a>
@@ -72,7 +73,7 @@
           if (window.innerWidth < 768) {
             window.location.href = 'mobile-profile.html'; // URL for mobile profile page
           } else {
-            window.location.href = 'desktop-profile.html'; // URL for desktop profile page
+            window.location.href = 'http://localhost:3001/user/profile/seeprofile'; // URL for desktop profile page
           }
         });
       }
@@ -98,8 +99,8 @@
     async function fetchProfileImage() {
       try {
         const response = await axios.get('http://localhost:3001/user/profile/profilephoto');
-
-        const profileImageUrl = response.data.photo || '/images/defaultphoto.png';
+        // response.data.photo || '/images/defaultphoto.png'||
+        const profileImageUrl ='https://tse1.mm.bing.net/th?id=OIP.nRNwBsXMPfthOqaIzKhNwwAAAA&pid=Api&P=0&h=180';
         const profileImage = document.querySelector('.profile_images');
         profileImage.src = profileImageUrl;
       } catch (error) {
@@ -129,7 +130,9 @@
       posts.forEach(post => {
         const postElement = document.createElement('div');
         postElement.classList.add('post');
-
+        const likeCount = (post.likes && Array.isArray(post.likes)) ? post.likes.length : 0;
+    const commentCount = (post.comments && Array.isArray(post.comments)) ? post.comments.length : 0;
+    
         postElement.innerHTML = `
           <img src="${post.postImageUrl}" alt="Post Image">
           <div class="post-details">
@@ -138,9 +141,9 @@
           <div class="post-icons">
             <div class="left-icons">
               <i class="fa-regular fa-heart" data-id="${post._id}" onclick="handleLike(event, '${post._id}')"></i>
-              <span class="like-count">${post.likes}</span>
+              <span class="like-count">${likeCount}</span>
               <i class="far fa-comment"></i>
-              <span class="comment-count">${post.comments}</span>
+              <span class="comment-count">${commentCount}</span>
             </div>
              <div class="right-icon">
     <i class="far fa-bookmark" data-id="${post._id}" onclick="handleSave(event, '${post._id}')"></i>
@@ -159,19 +162,26 @@
   const isLiked = icon.classList.contains('liked');
   
   axios.post(`http://localhost:3002/destni_post/like/like_unlike_post/${postId}`, {}, { withCredentials: true })
-    .then(response => {
-      if (response.data.success) {
-        if (isLiked) {
-          icon.classList.remove('fa-solid', 'fa-heart', 'liked');
-          icon.classList.add('fa-regular', 'fa-heart');
-        } else {
-          icon.classList.remove('fa-regular', 'fa-heart');
-          icon.classList.add('fa-solid', 'fa-heart', 'liked');
-        }
-        icon.nextElementSibling.textContent = response.data.likes;
+  .then(response => {
+    if (response.data.success) {
+      const icon = event.target;
+      const isLiked = icon.classList.contains('liked');
+      
+      if (isLiked) {
+        icon.classList.remove('fa-solid', 'fa-heart', 'liked');
+        icon.classList.add('fa-regular', 'fa-heart');
+      } else {
+        icon.classList.remove('fa-regular', 'fa-heart');
+        icon.classList.add('fa-solid', 'fa-heart', 'liked');
       }
-    })
-    .catch(error => console.error('Error liking post:', error));
+      icon.nextElementSibling.textContent = response.data.likesCount;
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error.response.data);
+  });
+
+   
 }
 function handleSave(event, postId) {
   const icon = event.target;

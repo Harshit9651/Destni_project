@@ -38,6 +38,10 @@ const postSchema = new mongoose.Schema({
     type: Number, // 0 == only me , 1 == friends , 2 == fof , 3 = public
     default: 1
   },
+  likesCount: {  // Add this field
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
-  <link rel="stylesheet" href="/css/profile.css">
+  <!-- <link rel="stylesheet" href="/css/profile.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
   <style>
@@ -279,7 +280,7 @@
 <body>
   <div class="profile-container">
     <div class="profile-details-card">
-      <img src="hp.jpg" alt="User Photo">
+      <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="User Photo">
       <i class="fa fa-camera camera-icon" onclick="document.getElementById('fileInput').click();"></i>
       <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="showCropper(this)">
       <h2>Harshit Sharma</h2>
@@ -290,7 +291,7 @@
     <div class="profile-main">
       <header class="profile-header">
         <div class="profile-photo">
-          <img src="/hp.jpg" alt="Profile Photo">
+          <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Profile Photo">
           <i class="fa fa-camera camera-icon" onclick="document.getElementById('fileInput').click();"></i>
         </div>
         <div class="profile-info">
@@ -308,7 +309,7 @@
           <h3>Destinations</h3>
           <div class="destination-list">
             <div class="destination-item">
-              <img src="hp.jpg" alt="Destination 1">
+              <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Destination 1">
               <div class="destination-details">
                 <span><i class="fas fa-map-marker-alt"></i> From: Jaipur</span>
                 <span><i class="fas fa-map-marker-alt"></i> To: Udaipur</span>
@@ -326,7 +327,7 @@
           <h3>Posts</h3>
           <div class="post-list">
             <div class="post-item">
-              <img src="hp.jpg" alt="Post 1">
+              <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Post 1">
               <span>This is a sample post description.</span>
             </div>
             <!-- Add more post items here -->
@@ -368,6 +369,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
   <script>
     function openModal() {
       document.getElementById('bioModal').style.display = 'block';
@@ -377,10 +379,39 @@
       document.getElementById('bioModal').style.display = 'none';
     }
 
-    function saveBio() {
+  //   function saveBio() {
+  //   var bioInput = document.getElementById('bioInput').value;
+  //   document.getElementById('bio').innerText = bioInput;
+    
+  //   // Send the bio to the server
+  //   axios.post('http://localhost:3001/user/update-bio', {
+  //     bio: bioInput
+  //   })
+  //   .then(function(response) {
+  //     alert('Bio updated successfully!');
+  //     closeModal();
+  //   })
+  //   .catch(function(error) {
+  //     console.error('Error:', error.response ? error.response.data : error.message);
+  //     alert('Failed to update bio.');
+  //   });
+  // }
+  function saveBio() {
       var bioInput = document.getElementById('bioInput').value;
       document.getElementById('bio').innerText = bioInput;
-      closeModal();
+
+      // Send the bio to the server
+      axios.post('http://localhost:3001/user/profile/updatebio', {
+        bio: bioInput
+      })
+      .then(function(response) {
+        alert('Bio updated successfully!');
+        closeModal();
+      })
+      .catch(function(error) {
+        console.error('Error:', error.response ? error.response.data : error.message);
+        alert('Failed to update bio.');
+      });
     }
 
     function showCropper(input) {
@@ -429,6 +460,7 @@
       });
       closeCropperModal();
     }
+    
   </script>
 </body>
 </html>

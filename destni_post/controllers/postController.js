@@ -61,36 +61,6 @@ exports.postAction = async (req, res, next) => {
 };
 
 
-exports.likePost = async (req, res, next) => {
-   const postId = "1e9790ef-a781-4e2f-8a78-9acb3604ff8a"; // Get postId from the request body
-  const userId = "66863bc39a7b914d88904f97";
-
-  try {
-    const existingLike = await Like.findOne({ postId, userId });
-
-    if (existingLike) {
-      await Like.deleteOne({ _id: existingLike._id });
-      res.status(200).json({ message: 'Post unliked successfully' });
-    } else {
-      const newLike = new Like({ postId, userId });
-     const savelike =  await newLike.save();
-     console.log(savelike)
-      res.status(201).json({ message: 'Post liked successfully' });
-   }
-
-    // Fetch the updated post with likes and comments populated
-    const updatedPost = await post.findOne({ postId })
-      .populate('likes')
-   
-
-    console.log('updated post is this lodi',updatedPost);
-
-  } catch (error) {
-    console.error('Error liking/unliking post:', error);
-    next(createError(500, 'Internal Server Error'));
-  }
-};
-
 exports.renderpostdetailpage= async(req,res)=>{
   res.render("postdetail.ejs")
 }
@@ -109,6 +79,7 @@ exports.getPostWithDetails = async (req, res) => {
       return res.status(404).send({ error: 'Post not found' });
     }
 
+    console.log(postdata)
     res.status(200).json({ postdata });
   } catch (error) {
     console.error('Error fetching post:', error);
@@ -117,9 +88,16 @@ exports.getPostWithDetails = async (req, res) => {
 };
 exports.listAllposts = async(req,res)=>{
   try{
-    const postdata = await  post.find({});
+    const postdata = await  post.find({}).populate('likes')    // Populate the likes
+    .populate('comments').exec();
+    
 res.send(postdata);
   }catch(error){
     res.status(500).send({ error: 'An error occurred' });
   }
+}
+exports.userpostes = async(req,res)=>{
+const userId = req.session.userId;
+const posts =  await post.findById(userId);
+res.send(posts);
 }

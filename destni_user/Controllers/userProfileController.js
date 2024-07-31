@@ -4,6 +4,17 @@ const statusCodes = require('../helper/statusCode');
 const jwt = require('jsonwebtoken');
 const Constants = require('../helper/Constent');
 require('dotenv').config();
+const axios = require('axios')
+const cloudinary = require('cloudinary').v2;
+const uploadToCloudinary = async (file) => {
+  if (file && file.path) {
+    //const result = await cloudinary.uploader.upload(file.buffer.toString('base64'));
+    const result = await cloudinary.uploader.upload(file.path);
+    return result.secure_url;
+  } else {
+    throw new Error('File buffer is undefined or null');
+  }
+};
 
 
 
@@ -78,22 +89,31 @@ console.log(userprofile);
     res.status(statusCodes.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).json({ error: 'Internal server error' });
   }
 };
-exports.updatedBio = async(req,res)=>{
+exports.updatedBio = async (req, res) => {
   try {
-     const { userId, bio } = req.body;
-    console.log(bio)
-    // await User.findByIdAndUpdate(userId, { bio });
-    res.status(200).json({ message: 'hyy helo' });
-    console.log("ehllo")
+    const { bio } = req.body;
+    const userId = req.user.id;
+    console.log(userId) 
+    console.log(bio);
+    await User.findByIdAndUpdate(userId, { bio });
+    res.status(200).json({ message: 'Bio updated successfully' });
+    console.log("Bio updated successfully");
   } catch (error) {
     res.status(500).json({ error: 'Error updating bio' });
   }
+};
+exports.updateuserprofilephoto  = async(req,res)=>{
+  const imageFile = req.files['croppedImage'][0];
+  const IMAGE = await uploadToCloudinary(imageFile);
+  const profileupdate = User.findByIdAndUpdate({_id:req.session.userId,photo:IMAGE})
+  console.log(profileupdate)
 
+  
 }
+exports.sellYourProfile = async(req,res)=>{
+  const userId = req.session.userId;
+  //const Userprofile = await User.findOne({userId:req.session.userId});
+//const Posts = axios.get('http://localhost:3002/destni_post/userprofile')
+  res.render('seeyourprofile.ejs');
 
-exports.userprofilephoto  = async(req,res)=>{
-  console.log(req.session.userId)
-  const findprfile = await User.findById(req.session.userId);
-  res.send(findprfile);
-console.log(findprfile)
 }
