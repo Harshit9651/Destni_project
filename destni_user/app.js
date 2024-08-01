@@ -15,6 +15,7 @@ const signinRoute = require("./Routes/signinRoute.js");
  const redisClient = require('./Redis/redis.js'); 
 const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
+const User = require('./models/UserprofileModel.js')
 const path = require('path');
 const cors = require('cors');
 const axios = require('axios')
@@ -88,11 +89,7 @@ app.use('/user/travel', travelRoute);
 app.use('/user/checkuser',sessionRoute)
 
 // Test Route
-app.get('/hello', (req, res) => {
-  console.log(req.session); // Log the whole session object
-  console.log('Session userId:', req.session.userId);
-  res.send(req.session.userId);
-});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(Constants.Applog);
@@ -110,6 +107,18 @@ res.render('test.ejs')
 })
 app.get('/hello', (req, res) => {
   console.log(req.session); // Log the whole session object
-  console.log('Session userId:', req.session.userId);
+  console.log('Session userId bhn chodddddd:', req.session.userId);
   res.send(req.session.userId);
 });
+app.post('/input', (req, res) => {
+  const {bio} = req.body;
+
+console.log(bio)
+res.send("ok")
+});
+
+app.get('/users',async(req,res)=>{
+const user = await User.findById('66a661718bde4e6de1b4cdd8')
+console.log(user);
+res.send(user)
+})

@@ -401,9 +401,8 @@
       document.getElementById('bio').innerText = bioInput;
 
       // Send the bio to the server
-      axios.post('http://localhost:3001/user/profile/updatebio', {
-        bio: bioInput
-      })
+      //
+      axios.post('http://localhost:3001/user/profile/userbio',{ bio: bioInput },{},  { withCredentials: true })
       .then(function(response) {
         alert('Bio updated successfully!');
         closeModal();

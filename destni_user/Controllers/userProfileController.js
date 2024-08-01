@@ -89,19 +89,19 @@ console.log(userprofile);
     res.status(statusCodes.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).json({ error: 'Internal server error' });
   }
 };
-exports.updatedBio = async (req, res) => {
-  try {
-    const { bio } = req.body;
-    const userId = req.user.id;
-    console.log(userId) 
-    console.log(bio);
-    await User.findByIdAndUpdate(userId, { bio });
-    res.status(200).json({ message: 'Bio updated successfully' });
-    console.log("Bio updated successfully");
-  } catch (error) {
-    res.status(500).json({ error: 'Error updating bio' });
-  }
-};
+// exports.updatedBio = async (req, res) => {
+//   try {
+//     const { bio } = req.body;
+//     // const userId = req.user.id;
+//     // console.log(userId) 
+//     console.log(bio);
+//     // await User.findByIdAndUpdate(userId, { bio });
+//     res.status(200).json({ message: 'Bio updated successfully' });
+//     console.log("Bio updated successfully");
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error updating bio' });
+//   }
+// };
 exports.updateuserprofilephoto  = async(req,res)=>{
   const imageFile = req.files['croppedImage'][0];
   const IMAGE = await uploadToCloudinary(imageFile);
@@ -115,5 +115,23 @@ exports.sellYourProfile = async(req,res)=>{
   //const Userprofile = await User.findOne({userId:req.session.userId});
 //const Posts = axios.get('http://localhost:3002/destni_post/userprofile')
   res.render('seeyourprofile.ejs');
+
+}
+exports.userbio = async(req,res)=>{
+  // try {
+        const { bio } = req.body;
+         const userId = req.session.userId;
+         console.log(userId) 
+        console.log(bio);
+        const checkuser = await User.findById(userId);
+        if(!checkuser){
+          console.log('user is not exisect ')
+        }
+     const updatedBio =await User.findByIdAndUpdate(userId, { bio });
+        res.status(200).json({ message: 'Bio updated successfully' });
+        console.log(updatedBio);
+      // } catch (error) {
+      //   res.status(500).json({ error: 'Error updating bio' });
+      // }
 
 }

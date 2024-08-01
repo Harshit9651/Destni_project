@@ -8,10 +8,10 @@ const router = express.Router();
 
 router.get('/',UserController.renderProfilePage);
 router.post('/profiledata',UserController.profileform)
-router.post('/updatebio',UserController.updatedBio);
 router.post('/update-profile-photo',upload.fields([{ name: 'croppedImage', maxCount: 1 }]),UserController.updateuserprofilephoto);
 // router.get('/profilephoto',UserController.userprofilephoto);
 router.get('/seeprofile',UserController.sellYourProfile);
+router.post('/userbio', checkUserSignin,UserController.userbio)
 
 
 
