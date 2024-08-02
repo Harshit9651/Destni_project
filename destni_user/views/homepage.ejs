@@ -23,10 +23,10 @@
       <ul class="menu">
         <li><a href="http://localhost:3001/"><i class="fa-solid fa-house"></i> Home</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li><!-- Notification Dropdown -->
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification <span id="notificationBadge" class="notification-badge"></span></a></li><!-- Notification Dropdown -->
      
         <li><a href="http://localhost:3002/destni_post/createPost"><i class="fas fa-plus"></i> Add Post</a></li>
-        <li><a href="#" id="profileLink"> <img class="profile_images" src="https://media.licdn.com/dms/image/D4D03AQGVncQaKGHhqA/profile-displayphoto-shrink_400_400/0/1701080786853?e=1727913600&v=beta&t=llBom3B7ln8zJDQHKA3Hy5YrleQ0NiF4tyBkT_io3Lo" alt="use_profile_photo"> Profile</a></li>
+        <li><a href="#" id="profileLink"> <img class="profile_images" src="" alt="use_profile_photo"> Profile</a></li>
         <li><div class="more-button">More</div></li>
       </ul>
       <div class="more-options" id="moreOptions">
@@ -101,9 +101,10 @@
  
     async function fetchProfileImage() {
       try {
-        const response = await axios.get('http://localhost:3001/user/profile/profilephoto');
-        // response.data.photo || '/images/defaultphoto.png'||
-        const profileImageUrl ='https://tse1.mm.bing.net/th?id=OIP.nRNwBsXMPfthOqaIzKhNwwAAAA&pid=Api&P=0&h=180';
+        const response = await axios.get('http://localhost:3001/user/profile/userprofilephoto' ,{}, { withCredentials: true });
+     
+        const profileImageUrl = response.data || 'https://tse1.mm.bing.net/th?id=OIP.nRNwBsXMPfthOqaIzKhNwwAAAA&pid=Api&P=0&h=180';
+        console.log(profileImageUrl)
         const profileImage = document.querySelector('.profile_images');
         profileImage.src = profileImageUrl;
       } catch (error) {

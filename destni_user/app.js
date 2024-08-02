@@ -16,6 +16,7 @@ const signinRoute = require("./Routes/signinRoute.js");
 const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
 const User = require('./models/UserprofileModel.js')
+const Notification = require("./models/notificationModel.js")
 const path = require('path');
 const cors = require('cors');
 const axios = require('axios')
@@ -116,9 +117,11 @@ app.post('/input', (req, res) => {
 console.log(bio)
 res.send("ok")
 });
-
-app.get('/users',async(req,res)=>{
-const user = await User.findOne({userId:req.session.userId})
-console.log(user);
+app.get('/noti',(req,res)=>{
+  res.render('notification.ejs')
+})
+app.get('/messages',async(req,res)=>{
+const user = await Notification.find({});
+console.log(user)
 res.send(user)
 })

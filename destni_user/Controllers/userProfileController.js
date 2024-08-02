@@ -158,7 +158,37 @@ exports.updateprofilephoto= async (req,res)=>{
     }
 
 }
-exports.seeprofile =async(req,res)=>{
-  res.render('seeyourprofile.ejs')
+exports.seeprofile = async (req, res) => {
+  const UserId = req.session.userId;
+  try {
+    const checkuser = await User.findOne({ userId: UserId });
+    if (!checkuser) {
+      return res.status(404).send("User not found");
+    }
 
-}
+  
+   const   name =checkuser.name
+    const   profilephoto=checkuser.profilephoto
+      const Bio =  checkuser.bio
+    res.render('seeyourprofile.ejs', {profilephoto});
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+exports.userprofilephoto = async (req, res) => {
+  const UserId = req.session.userId;
+  try {
+    const checkuser = await User.findOne({ userId: UserId });
+    if (!checkuser) {
+      return res.status(404).send("User not found");
+    }
+res.send(checkuser.photo);
+ 
+   
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};

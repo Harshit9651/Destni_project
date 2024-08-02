@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .notification-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .notification-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffcc00;
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification-item {
+            background-color: #2a2a2a;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .notification-item p {
+            margin: 0;
+        }
+
+        .notification-item .menu {
+            cursor: pointer;
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            top: 25px;
+            right: 10px;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 1;
+        }
+
+        .menu-content span {
+            display: block;
+            padding: 5px 10px;
+            cursor: pointer;
+            color: #ff0000;
+        }
+
+        .menu-content span:hover {
+            background-color: #444;
+        }
+
+        @media (max-width: 600px) {
+            .notification-container {
+                width: 100%;
+                margin: 10px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); }
+            to { transform: translateY(0); }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="notification-container">
+        <h2>Notifications</h2>
+        <div id="notificationList" class="notification-list"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchNotifications();
+
+            async function fetchNotifications() {
+                try {
+                    const response = await axios.get('http://localhost:3001/messages', { withCredentials: true });
+                    renderNotifications(response.data);
+                } catch (error) {
+                    console.error('Error fetching notifications:', error);
+                }
+            }
+
+            function renderNotifications(notifications) {
+                const notificationList = document.getElementById('notificationList');
+                notificationList.innerHTML = '';
+                notifications.forEach(notification => {
+                    const notificationItem = document.createElement('div');
+                    notificationItem.classList.add('notification-item');
+                    notificationItem.innerHTML = `
+                        <p>${notification.message}</p>
+                        <div class="menu"><i class="fa-solid fa-ellipsis-vertical"></i></div>
+                        <div class="menu-content">
+                            <span class="delete-button" data-id="${notification._id}">Delete</span>
+                        </div>
+                    `;
+                    notificationList.appendChild(notificationItem);
+                });
+
+                // Add event listeners for menu and delete buttons
+                const menus = document.querySelectorAll('.menu');
+                menus.forEach(menu => {
+                    menu.addEventListener('click', (event) => {
+                        const menuContent = menu.nextElementSibling;
+                        menuContent.style.display = menuContent.style.display === 'none' || menuContent.style.display === '' ? 'block' : 'none';
+                    });
+                });
+
+                const deleteButtons = document.querySelectorAll('.delete-button');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', async (event) => {
+                        const notificationId = event.target.dataset.id;
+                        await deleteNotification(notificationId);
+                    });
+                });
+            }
+
+            async function deleteNotification(id) {
+                try {
+                    await axios.delete(`http://localhost:3001/notifications/${id}`);
+                    fetchNotifications(); // Refresh the list after deletion
+                } catch (error) {
+                    console.error('Error deleting notification:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
