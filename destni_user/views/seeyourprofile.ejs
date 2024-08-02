@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
-  <!-- <link rel="stylesheet" href="/css/profile.css"> -->
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
   <style>
@@ -268,6 +268,34 @@
       font-size: 24px;
       color: #87CEFA;
     }
+   /* Loading Spinner Styles */
+   .spinner-container {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+      backdrop-filter: blur(5px); /* Apply blur to the background */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      width: 80px;
+      height: 80px;
+      border: 8px solid rgba(255, 255, 255, 0.3); /* Semi-transparent white border */
+      border-radius: 50%;
+      border-top: 8px solid #fff; /* Solid white top border */
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     @media (min-width: 768px) {
       .destination-item,
@@ -320,7 +348,7 @@
               </div>
               <span><i class="fas fa-comment"></i> This is a sample message about the destination.</span>
             </div>
-            <!-- Add more destination items here -->
+        
           </div>
         </div>
         <div class="posts">
@@ -330,14 +358,15 @@
               <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Post 1">
               <span>This is a sample post description.</span>
             </div>
-            <!-- Add more post items here -->
+       
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Bio Edit Modal -->
+ 
+  
+ 
   <div id="bioModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -347,11 +376,11 @@
       <div class="modal-body">
         <input type="text" id="bioInput" placeholder="Enter new bio">
         <button onclick="saveBio()">Save</button>
+
       </div>
     </div>
   </div>
 
-  <!-- Cropper Modal -->
   <div id="cropperModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -363,9 +392,19 @@
           <img id="cropperImage" style="max-width: 100%;">
         </div>
         <button onclick="cropAndUpload()">Crop and Upload</button>
+  
       </div>
     </div>
   </div>
+  
+  
+  
+  
+  
+  <div id="spinner" class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
@@ -378,39 +417,32 @@
     function closeModal() {
       document.getElementById('bioModal').style.display = 'none';
     }
+    function showSpinner() {
+  document.getElementById('spinner').style.display = 'flex';
+}
 
-  //   function saveBio() {
-  //   var bioInput = document.getElementById('bioInput').value;
-  //   document.getElementById('bio').innerText = bioInput;
-    
-  //   // Send the bio to the server
-  //   axios.post('http://localhost:3001/user/update-bio', {
-  //     bio: bioInput
-  //   })
-  //   .then(function(response) {
-  //     alert('Bio updated successfully!');
-  //     closeModal();
-  //   })
-  //   .catch(function(error) {
-  //     console.error('Error:', error.response ? error.response.data : error.message);
-  //     alert('Failed to update bio.');
-  //   });
-  // }
+function hideSpinner() {
+  document.getElementById('spinner').style.display = 'none';
+}
+
   function saveBio() {
       var bioInput = document.getElementById('bioInput').value;
       document.getElementById('bio').innerText = bioInput;
 
-      // Send the bio to the server
-      //
+      showSpinner(); // Show spinner before the request starts
       axios.post('http://localhost:3001/user/profile/userbio',{ bio: bioInput },{},  { withCredentials: true })
       .then(function(response) {
         alert('Bio updated successfully!');
+   
         closeModal();
       })
       .catch(function(error) {
         console.error('Error:', error.response ? error.response.data : error.message);
+      
         alert('Failed to update bio.');
-      });
+      }).finally(function() {
+      hideSpinner(); // Hide spinner after the request is complete
+    });;
     }
 
     function showCropper(input) {
@@ -433,17 +465,18 @@
     }
 
     function closeCropperModal() {
+      showSpinner(); // Show spinner before the request starts
       var cropper = $('#cropperModal').data('cropper');
       cropper.destroy();
       $('#cropperModal').css('display', 'none');
     }
-
+   
     function cropAndUpload() {
       var cropper = $('#cropperModal').data('cropper');
       cropper.getCroppedCanvas().toBlob(function(blob) {
         var formData = new FormData();
         formData.append('croppedImage', blob);
-        $.ajax('/upload-profile-photo', {
+        $.ajax('http://localhost:3001/user/profile/updateprofilephoto', {
           method: 'POST',
           data: formData,
           processData: false,
@@ -454,7 +487,9 @@
           },
           error: function() {
             alert('Upload failed!');
-          }
+          },complete: function() {
+        hideSpinner(); // Hide spinner after the request is complete
+      }
         });
       });
       closeCropperModal();
@@ -462,4 +497,4 @@
     
   </script>
 </body>
-</html>
+</html>  

@@ -118,7 +118,7 @@ res.send("ok")
 });
 
 app.get('/users',async(req,res)=>{
-const user = await User.findById('66a661718bde4e6de1b4cdd8')
+const user = await User.findOne({userId:req.session.userId})
 console.log(user);
 res.send(user)
 })

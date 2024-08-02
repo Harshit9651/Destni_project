@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading Spinner</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      margin: 0;
+      overflow: hidden; /* Prevent scrolling when spinner is visible */
+    }
+
+    .spinner-container {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+      backdrop-filter: blur(5px); /* Apply blur to the background */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      width: 80px;
+      height: 80px;
+      border: 8px solid rgba(255, 255, 255, 0.3); /* Semi-transparent white border */
+      border-radius: 50%;
+      border-top: 8px solid #fff; /* Solid white top border */
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #fff;
+      border: none;
+      border-radius: 4px;
+      color: #000;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div id="spinner" class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+
+  <button onclick="showSpinner()">Show Spinner</button>
+  <button onclick="hideSpinner()">Hide Spinner</button>
+
+  <script>
+    function showSpinner() {
+      document.getElementById('spinner').style.display = 'flex';
+    }
+
+    function hideSpinner() {
+      document.getElementById('spinner').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

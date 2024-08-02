@@ -38,7 +38,7 @@ exports.rendersigninpage =async(req,res)=>{
         req.session.userId = user._id;
         console.log('Session set userId:', req.session.userId);
     
-        res.status(statusCodes.SUCCESS.OK.code).json({ message: 'Signin successful', token });
+        res.redirect('http://localhost:3001/');
       } catch (err) {
         console.error(err);
         res.status(statusCodes.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).json({ error: 'Internal server error' });

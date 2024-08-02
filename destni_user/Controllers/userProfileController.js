@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const Constants = require('../helper/Constent');
 require('dotenv').config();
 const axios = require('axios')
-const cloudinary = require('cloudinary').v2;
+// const cloudinary = require('cloudinary').v2;
+const { cloudinary, upload } = require('../middleware/multer');
 const uploadToCloudinary = async (file) => {
   if (file && file.path) {
     //const result = await cloudinary.uploader.upload(file.buffer.toString('base64'));
@@ -89,49 +90,60 @@ console.log(userprofile);
     res.status(statusCodes.SERVER_ERROR.INTERNAL_SERVER_ERROR.code).json({ error: 'Internal server error' });
   }
 };
-// exports.updatedBio = async (req, res) => {
-//   try {
-//     const { bio } = req.body;
-//     // const userId = req.user.id;
-//     // console.log(userId) 
-//     console.log(bio);
-//     // await User.findByIdAndUpdate(userId, { bio });
-//     res.status(200).json({ message: 'Bio updated successfully' });
-//     console.log("Bio updated successfully");
-//   } catch (error) {
-//     res.status(500).json({ error: 'Error updating bio' });
-//   }
-// };
-exports.updateuserprofilephoto  = async(req,res)=>{
-  const imageFile = req.files['croppedImage'][0];
-  const IMAGE = await uploadToCloudinary(imageFile);
-  const profileupdate = User.findByIdAndUpdate({_id:req.session.userId,photo:IMAGE})
-  console.log(profileupdate)
 
-  
-}
-exports.sellYourProfile = async(req,res)=>{
-  const userId = req.session.userId;
-  //const Userprofile = await User.findOne({userId:req.session.userId});
-//const Posts = axios.get('http://localhost:3002/destni_post/userprofile')
-  res.render('seeyourprofile.ejs');
 
-}
+
 exports.userbio = async(req,res)=>{
-  // try {
+   try {
         const { bio } = req.body;
-         const userId = req.session.userId;
-         console.log(userId) 
+         const UserId = req.session.userId;
+         console.log(UserId) 
         console.log(bio);
-        const checkuser = await User.findById(userId);
+        const checkuser = await User.findOne({userId:UserId});
         if(!checkuser){
           console.log('user is not exisect ')
         }
-     const updatedBio =await User.findByIdAndUpdate(userId, { bio });
+        const updatedBio = await User.findOneAndUpdate(
+          { userId: UserId },
+          { bio },               
+          { new: true }            
+        );
         res.status(200).json({ message: 'Bio updated successfully' });
         console.log(updatedBio);
-      // } catch (error) {
-      //   res.status(500).json({ error: 'Error updating bio' });
-      // }
+      } catch (error) {
+         res.status(500).json({ error: 'Error updating bio' });
+       }
+
+}
+exports.updateprofilephoto= async (req,res)=>{
+ 
+    try {
+      const uploadToCloudinary = async (file) => {
+        if (file && file.path) {
+          const result = await cloudinary.uploader.upload(file.path);
+          return result.secure_url;
+        } else {
+          throw new Error('File buffer is undefined or null');
+        }
+      };
+    
+      const imageFile = req.file; // Change to req.file since we are uploading a single file
+      const IMAGE = await uploadToCloudinary(imageFile);
+      const profileUpdated = await User.findOneAndUpdate(
+        { userId: req.session.userId },
+        { photo: IMAGE },
+        { new: true }
+      );
+      
+      console.log(profileUpdated);
+      res.status(200).send('Profile photo updated successfully');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Failed to update profile photo');
+    }
+
+}
+exports.seeprofile =async(req,res)=>{
+  res.render('seeyourprofile.ejs')
 
 }

@@ -8,7 +8,7 @@ exports.checkUserSignin = (req, res, next) => {
   console.log('Token received: ' + token);
 
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized: No token provided' });
+    return res.redirect('/signin.ejs');
   }
 
   let actualToken;
