@@ -12,6 +12,7 @@
     img-src *;">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/homepage.css">
+
 </head>
 <body>
   <div class="container">
@@ -22,7 +23,8 @@
       <ul class="menu">
         <li><a href="http://localhost:3001/"><i class="fa-solid fa-house"></i> Home</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li>
+        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification</a></li><!-- Notification Dropdown -->
+     
         <li><a href="http://localhost:3002/destni_post/createPost"><i class="fas fa-plus"></i> Add Post</a></li>
         <li><a href="#" id="profileLink"> <img class="profile_images" src="https://media.licdn.com/dms/image/D4D03AQGVncQaKGHhqA/profile-displayphoto-shrink_400_400/0/1701080786853?e=1727913600&v=beta&t=llBom3B7ln8zJDQHKA3Hy5YrleQ0NiF4tyBkT_io3Lo" alt="use_profile_photo"> Profile</a></li>
         <li><div class="more-button">More</div></li>
@@ -77,6 +79,7 @@
           }
         });
       }
+ 
     });
 
     function toggleMoreOptions() {
@@ -206,7 +209,8 @@ function handleSave(event, postId) {
     .catch(error => console.error('Error saving post:', error));
 }
 
-
   </script>
+ 
+  
 </body>
 </html>

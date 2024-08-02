@@ -3,7 +3,10 @@ const User = require('../models/UserprofileModel');
 const statusCodes = require('../helper/statusCode');
 const jwt = require('jsonwebtoken');
 const Constants = require('../helper/Constent');
+const Notification = require("../models/notificationModel");
+
 require('dotenv').config();
+
 const axios = require('axios')
 // const cloudinary = require('cloudinary').v2;
 const { cloudinary, upload } = require('../middleware/multer');
@@ -97,8 +100,6 @@ exports.userbio = async(req,res)=>{
    try {
         const { bio } = req.body;
          const UserId = req.session.userId;
-         console.log(UserId) 
-        console.log(bio);
         const checkuser = await User.findOne({userId:UserId});
         if(!checkuser){
           console.log('user is not exisect ')
@@ -108,6 +109,11 @@ exports.userbio = async(req,res)=>{
           { bio },               
           { new: true }            
         );
+        const message = `hy ${checkuser.fname} you just update your Bio `
+        const addnotification = new Notification({userId:req.session.userId,message: message});
+        const saveNotification =  await addnotification.save();
+        console.log(saveNotification);
+
         res.status(200).json({ message: 'Bio updated successfully' });
         console.log(updatedBio);
       } catch (error) {
@@ -129,6 +135,15 @@ exports.updateprofilephoto= async (req,res)=>{
     
       const imageFile = req.file; // Change to req.file since we are uploading a single file
       const IMAGE = await uploadToCloudinary(imageFile);
+      const UserId = req.session.userId;
+      const checkuser = await User.findOne({userId:UserId});
+      if(!checkuser){
+   res.send(500).status('user not found')
+      }
+      const message = `hy ${checkuser.fname} you just update your profile photo `
+      const addnotification = new Notification({userId:req.session.userId,message: message});
+      const saveNotification =  await addnotification.save();
+      console.log(saveNotification);
       const profileUpdated = await User.findOneAndUpdate(
         { userId: req.session.userId },
         { photo: IMAGE },
