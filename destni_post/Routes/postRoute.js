@@ -9,7 +9,9 @@ router.post('/posts/create',upload.fields([{ name: 'Image', maxCount: 1 }]),post
 router.get("/renderpostdetail",postController.renderpostdetailpage);
 router.post('/postdetail',postController.getPostWithDetails);
 router.get('/renderallposts',postController.listAllposts);
-router.get('/userprofile',authenticateUser,postController.userpostes);
+// router.get('/userprofile',authenticateUser,postController.userpostes);
+router.get('/userposts',authenticateUser,postController.userposts );
+router.get('/userpostcount',authenticateUser,postController.userpostscount);
 
 
 

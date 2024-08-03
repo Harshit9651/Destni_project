@@ -13,6 +13,7 @@ router.get('/seeprofile',UserController.seeprofile );
 router.post('/userbio', checkUserSignin,UserController.userbio)
 router.post('/updateprofilephoto',upload.single('croppedImage'),UserController.updateprofilephoto)
 router.get('/userprofilephoto',UserController.userprofilephoto );
+router.get('/userprofile',UserController.userprofile);
 
 
 

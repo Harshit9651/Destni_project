@@ -97,3 +97,20 @@ exports.searchUsersByCity = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
+exports.userDestination = async(req,res)=>{
+  
+  const UserId = req.session.userId;
+  try {
+    const usertraveldata = await trevelModel.find({ userId: UserId });
+    if (!usertraveldata) {
+      return res.status(404).send("User not found");
+    }else{
+      res.send(usertraveldata);
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Internal Server Error');
+  }
+
+}

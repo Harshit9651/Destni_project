@@ -167,10 +167,24 @@ exports.seeprofile = async (req, res) => {
     }
 
   
-   const   name =checkuser.name
-    const   profilephoto=checkuser.profilephoto
+   const username = checkuser.fname + " "+checkuser.lname;
+   const City = checkuser.city;
+   const State= checkuser.state;  
+   const Pincode = checkuser.pincode;
+   const PhoneNumber = checkuser.pnumber;
+
+    const   profilephoto=checkuser.photo
       const Bio =  checkuser.bio
-    res.render('seeyourprofile.ejs', {profilephoto});
+      console.log(`user photo is here ${profilephoto} and user Bio is ${Bio} ,user fname ${username}, user city ${City}, ${State}, ${Pincode}, ${PhoneNumber}`)
+    res.render('seeyourprofile.ejs', {
+  profilephoto,
+  Bio,
+  username,
+  State,
+  City,
+  Pincode,
+  PhoneNumber
+    });
   } catch (error) {
     console.error('Error fetching user profile:', error);
     res.status(500).send('Internal Server Error');
@@ -192,3 +206,19 @@ res.send(checkuser.photo);
     res.status(500).send('Internal Server Error');
   }
 };
+
+exports.userprofile = async(req,res)=>{
+  const UserId = req.session.userId;
+  try {
+    const user = await User.find({ userId: UserId });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+res.send(user);
+ 
+   
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Internal Server Error');
+  }
+}

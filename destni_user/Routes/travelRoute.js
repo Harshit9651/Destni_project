@@ -8,6 +8,8 @@ const router = express.Router();
 router.get('/destniform', terverllController.rendertravelinfopage );
 router.post('/userterveldata',terverllController.saveTravelInfo);
 router.get('/search',cacheMiddleware('city', 3600), terverllController.searchUsersByCity );
-router.get('/traevelrender/search',terverllController.rendersearch)
+router.get('/traevelrender/search',terverllController.rendersearch);
+router.get('/usertraveldata',terverllController.userDestination);
+
 
 module.exports = router;

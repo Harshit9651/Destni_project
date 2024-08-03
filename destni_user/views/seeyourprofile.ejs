@@ -308,28 +308,29 @@
 <body>
   <div class="profile-container">
     <div class="profile-details-card">
-      <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="User Photo">
+      <img src="<%= profilephoto %>" alt="User Photo">
       <!-- <i class="fa fa-camera camera-icon" onclick="document.getElementById('fileInput').click();"></i> -->
       <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="showCropper(this)">
-      <h2>Harshit Sharma</h2>
-      <p>State: Rajasthan</p>
-      <p>Pincode: 123456</p>
-      <p>Phone: +91 12345 67890</p>
+      <h2><%=username%></h2>
+      <p>State: <%= State %></p>
+      <p>City: <%= City %></p>
+      <p>Pincode: <%=Pincode %></p>
+      <p>Phone: <%= PhoneNumber %></p>
     </div>
     <div class="profile-main">
       <header class="profile-header">
         <div class="profile-photo">
-          <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Profile Photo">
+          <img src="<%= profilephoto %>" alt="Profile Photo">
           <i class="fa fa-camera camera-icon" onclick="document.getElementById('fileInput').click();"></i>
         </div>
         <div class="profile-info">
-          <h2 class="username">Harshit Sharma <button class="edit-button" onclick="openModal()">Edit Bio</button></h2>
+          <h2 class="username"><%= username %><button class="edit-button" onclick="openModal()">Edit Bio</button></h2>
           <div class="profile-stats">
-            <div class="stat"><span class="count">100</span> posts</div>
+            <div class="stat"><span class=" count" id="postcount">lodding...</span> posts</div>
             <div class="stat"><span class="count">150</span> followers</div>
             <div class="stat"><span class="count">200</span> following</div>
           </div>
-          <p class="bio" id="bio">User bio goes here. This is a short description about the user.</p>
+          <p class="bio" id="bio"><%= Bio %></p>
         </div>
       </header>
       <div class="profile-content">
@@ -494,6 +495,21 @@ function hideSpinner() {
       });
       closeCropperModal();
     }
+    async function fetchUserPostCount() {
+        try {
+            const response = await axios.get("http://localhost:3002/destni_post/userpostcount", { withCredentials: true });
+            const postCount = response.data.count;
+            console.log(postCount)
+            document.getElementById('postcount').innerText = postCount;
+            console.log(postCount);
+        } catch (error) {
+            console.error('Error fetching user post count:', error);
+            document.getElementById('postCount').innerText = 'Error';
+        }
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', fetchUserPostCount);
     
   </script>
 </body>

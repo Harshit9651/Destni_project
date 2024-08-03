@@ -96,8 +96,33 @@ res.send(postdata);
     res.status(500).send({ error: 'An error occurred' });
   }
 }
-exports.userpostes = async(req,res)=>{
-const userId = req.session.userId;
-const posts =  await post.findById(userId);
-res.send(posts);
+  exports.userposts = async(req,res)=>{
+const UserId = req.session.userId;
+try {
+  const userPosts = await post.find({ userId: UserId });
+  if (!userPosts) {
+    return res.status(404).send("User not found");
+  }else{
+    res.send(userPosts);
+  }
+} catch (error) {
+  console.error('Error fetching user profile:', error);
+  res.status(500).send('Internal Server Error');
 }
+
+  } 
+
+
+  
+exports.userpostscount = async (req, res) => {
+  const userId = req.session.userId; 
+  try {
+    const postCount = await post.countDocuments({ userId: userId });
+    res.json({ count: postCount });
+  } catch (error) {
+    console.error('Error fetching user post count:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
