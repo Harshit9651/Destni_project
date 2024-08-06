@@ -17,6 +17,8 @@ const Constants = require('./helper/Constent.js');
 const authenticateToken = require('./Auth/authentication.js')
 const User = require('./models/UserprofileModel.js')
 const Notification = require("./models/notificationModel.js")
+const http = require('http');
+const socketIo = require('socket.io');
 const path = require('path');
 const cors = require('cors');
 const axios = require('axios')
@@ -62,10 +64,17 @@ app.use(flash());
 //     maxAge: 1000 * 60 * 60 * 24, // 1 day
 //   },
 // }));
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: 'http://localhost:3002',
+    credentials: true
+  }
+});
 app.use(session({
-  store:store,
+  // store:store,
   secret: SESSION_SECRET,
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   cookie: {
     secure: false, // Set secure to true if using HTTPS in production
@@ -91,10 +100,10 @@ app.use('/user/checkuser',sessionRoute)
 
 // Test Route
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(Constants.Applog);
-});
+// // Start the server
+// app.listen(PORT, () => {
+//   console.log(Constants.Applog);
+// });
 app.get('/',(req,res)=>{
 res.render("homepage.ejs")
 })
@@ -125,3 +134,18 @@ const user = await Notification.find({});
 console.log(user)
 res.send(user)
 })
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+
+  socket.on('send_notification', (notification) => {
+    io.emit('receive_notification', notification);
+  });
+});
+// Start the server
+server.listen(PORT, () => {
+  console.log(Constants.Applog);
+});

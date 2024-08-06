@@ -12,6 +12,41 @@
     img-src *;">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/homepage.css">
+ <style>/* Add a wrapper around the bell icon and the badge */
+  .menu li a {
+    position: relative; /* Make this container the reference for the badge positioning */
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: -10px; /* Position it slightly above the bell icon */
+    right: -10px; /* Position it slightly to the right of the bell icon */
+    background-color: red; /* Background color of the badge */
+    color: white; /* Text color of the badge */
+    width: 20px; /* Width of the badge */
+    height: 20px; /* Height of the badge */
+    border-radius: 50%; /* Circular badge */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px; /* Font size for the count */
+    font-weight: bold; /* Bold text */
+    visibility: hidden; /* Hide by default */
+  }
+  
+  .menu li a .notification-badge {
+    visibility: visible; /* Show the badge if there are notifications */
+  }
+  
+  .menu li {
+    position: relative; /* Ensure the badge is positioned relative to this container */
+  }
+  
+  /* Adjust the icon styles if necessary */
+  .menu li a .fa-bell {
+    position: relative; /* Ensure that the badge is positioned relative to the bell icon */
+  }
+  </style>
 
 </head>
 <body>
@@ -23,8 +58,16 @@
       <ul class="menu">
         <li><a href="http://localhost:3001/"><i class="fa-solid fa-house"></i> Home</a></li>
         <li><a href="#" class="hide-on-mobile"><i class="far fa-envelope"></i> Message</a></li>
-        <li><a href="#" class="hide-on-mobile"><i class="far fa-bell"></i> Notification <span id="notificationBadge" class="notification-badge"></span></a></li><!-- Notification Dropdown -->
-     
+        <li>
+          <a href="#" class="hide-on-mobile">
+            <i class="far fa-bell"></i>
+            <span id="notificationBadge" class="notification-badge">
+              <span id="notificationCount">0</span>
+            </span>
+            Notification
+          </a>
+        </li>
+        
         <li><a href="http://localhost:3002/destni_post/createPost"><i class="fas fa-plus"></i> Add Post</a></li>
         <li><a href="#" id="profileLink"> <img class="profile_images" src="" alt="use_profile_photo"> Profile</a></li>
         <li><div class="more-button">More</div></li>
@@ -56,7 +99,9 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script>
+     const socket = io('http://localhost:3001');
     document.addEventListener('DOMContentLoaded', () => {
       fetchPosts();
       fetchProfileImage();
@@ -79,6 +124,10 @@
           }
         });
       }
+      socket.on('receive_notification', (notification) => {
+        updateNotificationBadge();
+      });
+   
  
     });
 
@@ -210,6 +259,16 @@ function handleSave(event, postId) {
     .catch(error => console.error('Error saving post:', error));
 }
 
+function updateNotificationBadge() {
+  const notificationBadge = document.getElementById('notificationBadge');
+  const notificationCount = document.getElementById('notificationCount');
+  let currentCount = parseInt(notificationCount.innerText) || 0;
+  currentCount += 1; // Increment count (or set this value based on real notifications)
+  notificationCount.innerText = currentCount;
+  notificationBadge.style.visibility = currentCount > 0 ? 'visible' : 'hidden'; // Show or hide badge
+}
+
+    updateNotificationBadge()
   </script>
  
   

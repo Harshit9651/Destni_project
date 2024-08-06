@@ -24,6 +24,7 @@ exports.sessionId = async (req, res) => {
     const decoded = jwt.verify(actualToken, JWT_SECRET);
     console.log('Decoded token:', decoded);
     res.json({ userId: decoded.id });
+    
   } catch (error) {
     console.error('Token verification error:', error.message);
     res.status(400).json({ error: 'Invalid token.' });

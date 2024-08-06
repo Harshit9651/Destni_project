@@ -308,19 +308,19 @@
 <body>
   <div class="profile-container">
     <div class="profile-details-card">
-      <img src="<%= profilephoto %>" alt="User Photo">
+      <img src="<%=profilePhoto%>" alt="User Photo">
       <!-- <i class="fa fa-camera camera-icon" onclick="document.getElementById('fileInput').click();"></i> -->
       <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="showCropper(this)">
       <h2><%=username%></h2>
-      <p>State: <%= State %></p>
-      <p>City: <%= City %></p>
-      <p>Pincode: <%=Pincode %></p>
-      <p>Phone: <%= PhoneNumber %></p>
+      <p>State: <%= state %></p>
+      <p>City: <%= city %></p>
+      <p>Pincode: <%=pincode  %></p>
+      <p>Phone: <%=phoneNumber   %></p>
     </div>
     <div class="profile-main">
       <header class="profile-header">
         <div class="profile-photo">
-          <img src="<%= profilephoto %>" alt="Profile Photo">
+          <img src="<%=profilePhoto %>" alt="Profile Photo">
           <i class="fa fa-camera camera-icon" onclick="document.getElementById('fileInput').click();"></i>
         </div>
         <div class="profile-info">
@@ -330,42 +330,25 @@
             <div class="stat"><span class="count">150</span> followers</div>
             <div class="stat"><span class="count">200</span> following</div>
           </div>
-          <p class="bio" id="bio"><%= Bio %></p>
+          <p class="bio" id="bio"><%=Bio%></p>
         </div>
       </header>
-      <div class="profile-content">
+      <section class="profile-content">
         <div class="destinations">
-          <h3>Destinations</h3>
+          <h2>Destinations</h2>
           <div class="destination-list">
-            <div class="destination-item">
-              <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Destination 1">
-              <div class="destination-details">
-                <span><i class="fas fa-map-marker-alt"></i> From: Jaipur</span>
-                <span><i class="fas fa-map-marker-alt"></i> To: Udaipur</span>
-              </div>
-              <div class="destination-details">
-                <span><i class="fas fa-calendar-alt"></i> Date: 2023-12-24</span>
-                <span><i class="fas fa-users"></i> 5 People</span>
-              </div>
-              <span><i class="fas fa-comment"></i> This is a sample message about the destination.</span>
-            </div>
-        
+            <!-- Destination items will be inserted here by JavaScript -->
           </div>
         </div>
         <div class="posts">
-          <h3>Posts</h3>
+          <h2>Posts</h2>
           <div class="post-list">
-            <div class="post-item">
-              <img src="https://png.pngtree.com/png-clipart/20190924/original/pngtree-business-people-avatar-icon-user-profile-free-vector-png-image_4815126.jpg" alt="Post 1">
-              <span>This is a sample post description.</span>
-            </div>
-       
+            <!-- Post items will be inserted here by JavaScript -->
           </div>
         </div>
-      </div>
+      </section>
     </div>
   </div>
- 
   
  
   <div id="bioModal" class="modal">
@@ -508,8 +491,60 @@ function hideSpinner() {
         }
     }
 
+    // // Fetch and display destinations
+    // function fetchDestinations() {
+    //   fetch('http://localhost:3001/user/travel/usertraveldata',{},{withCredentials:true})
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       const destinationList = document.querySelector('.destination-list');
+    //       destinationList.innerHTML = '';
+    //       data.forEach(destination => {
+    //         const item = document.createElement('div');
+    //         item.className = 'destination-item';
+    //         item.innerHTML = `
+    //           <img src="${destination.image}" alt="${destination.name}">
+    //           <div class="destination-details">
+    //             <span>${destination.name}</span>
+    //             <span>${destination.date}</span>
+    //             <i class="fa fa-thumbs-up"></i> ${destination.likes}
+    //           </div>
+    //         `;
+    //         destinationList.appendChild(item);
+    //       });
+    //     })
+    //     .catch(error => console.error('Error fetching destinations:', error));
+    // }
+
+    // // Fetch and display posts
+    // function fetchPosts() {
+    //   fetch('http://localhost:3002/destni_post/userposts',{},{withCredentials:true})
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       const postList = document.querySelector('.post-list');
+    //       postList.innerHTML = '';
+    //       data.forEach(post => {
+    //         const item = document.createElement('div');
+    //         item.className = 'post-item';
+    //         item.innerHTML = `
+    //           <img src="${post.image}" alt="${post.title}">
+    //           <div class="post-details">
+    //             <span>${post.title}</span>
+    //             <span>${post.date}</span>
+    //             <i class="fa fa-thumbs-up"></i> ${post.likes}
+    //           </div>
+    //         `;
+    //         postList.appendChild(item);
+    //       });
+    //     })
+    //     .catch(error => console.error('Error fetching posts:', error));
+    // }
+
     // Call the function when the page loads
-    document.addEventListener('DOMContentLoaded', fetchUserPostCount);
+    document.addEventListener('DOMContentLoaded',
+     fetchUserPostCount,
+    //  fetchPosts,
+    //  fetchDestinations
+    );
     
   </script>
 </body>

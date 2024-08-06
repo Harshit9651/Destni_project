@@ -101,6 +101,7 @@ exports.searchUsersByCity = async (req, res) => {
 exports.userDestination = async(req,res)=>{
   
   const UserId = req.session.userId;
+  console.log(UserId)
   try {
     const usertraveldata = await trevelModel.find({ userId: UserId });
     if (!usertraveldata) {

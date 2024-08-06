@@ -35,8 +35,9 @@ exports.rendersigninpage =async(req,res)=>{
         const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: Constants.session_Expire });
         res.cookie('token', token, { httpOnly: true, secure: false });
     
-        req.session.userId = user._id;
-        console.log('Session set userId:', req.session.userId);
+        req.session.userId = user.id;
+        console.log('Session set userId is bhn ki chut :', req.session.userId);
+     
     
         res.redirect('http://localhost:3001/');
       } catch (err) {
